@@ -22,6 +22,8 @@ namespace counttime
             textMessage = FindViewById<TextView>(Resource.Id.message);
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
             navigation.SetOnNavigationItemSelectedListener(this);
+            Button calculate = FindViewById<Button>(Resource.Id.calculate);
+            calculate.Click += (sender, e) => { OnCalculateClick(); };
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
@@ -34,16 +36,22 @@ namespace counttime
             switch (item.ItemId)
             {
                 case Resource.Id.navigation_home:
-                    textMessage.SetText(Resource.String.title_home);
+                    SetContentView(Resource.Layout.activity_main);
                     return true;
                 case Resource.Id.navigation_dashboard:
-                    textMessage.SetText(Resource.String.title_dashboard);
-                    return true;
-                case Resource.Id.navigation_notifications:
-                    textMessage.SetText(Resource.String.title_notifications);
+                    SetContentView(Resource.Layout.layout1);
                     return true;
             }
             return false;
+        }
+        public bool OnCalculateClick()
+        {
+            var dp = FindViewById<TextView>(Resource.Id.remainingdays);
+            if (dp != null)
+            {
+                dp.Text = "Do Calculation clicked";
+            }
+            return true;
         }
     }
 }

@@ -35,7 +35,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textView2"
         android:id="@+id/datePicker1" />
-
+    <Button
+        android:text="Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/datePicker1"
+        android:id="@+id/calculate"/>
+    <TextView
+        android:text="Loading Results"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calculate"
+        android:id="@+id/remainingdays" />
     
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
