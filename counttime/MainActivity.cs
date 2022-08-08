@@ -5,6 +5,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using Google.Android.Material.BottomNavigation;
+using Xamarin.Essentials;
 
 namespace counttime
 {
@@ -24,6 +25,30 @@ namespace counttime
             navigation.SetOnNavigationItemSelectedListener(this);
             Button calculate = FindViewById<Button>(Resource.Id.calculate);
             calculate.Click += (sender, e) => { OnCalculateClick(); };
+            var namePref = Preferences.Get("Name", string.Empty);
+            if (namePref != string.Empty)
+            {
+                var name = FindViewById<TextView>(Resource.Id.editText1);
+                if (name != null)
+                {
+                    name.Text = namePref;
+                }
+            }
+            var rDatePref = Preferences.Get("ReleaseDate", System.DateTime.Now);
+            if (rDatePref != null)
+            {
+                DatePicker rDate = (DatePicker)FindViewById(Resource.Id.datePicker1);
+                if (rDate != null)
+                {
+                    rDate.DateTime = rDatePref;
+                    var rText = FindViewById<TextView>(Resource.Id.remainingdays);
+                    if (rText != null)
+                    {
+
+                    }
+                    rText.Text = (rDate.DateTime - System.DateTime.Now).TotalDays + " days to release.";
+                }
+            }
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
@@ -46,11 +71,19 @@ namespace counttime
         }
         public bool OnCalculateClick()
         {
-            var dp = FindViewById<TextView>(Resource.Id.remainingdays);
+            var name = FindViewById<TextView>(Resource.Id.editText1);
+            if (name != null)
+            {
+                Preferences.Set("Name", name.Text);
+            }
+            DatePicker dp = (DatePicker)FindViewById(Resource.Id.datePicker1);
             if (dp != null)
             {
-                dp.Text = "Do Calculation clicked";
+                Preferences.Set("ReleaseDate", dp.DateTime);
+                FindViewById<TextView>(Resource.Id.remainingdays).Text = (dp.DateTime - System.DateTime.Now).TotalDays + " days to release.";
+                return true;
             }
+            
             return true;
         }
     }
