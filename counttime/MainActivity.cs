@@ -34,6 +34,21 @@ namespace counttime
                     name.Text = namePref;
                 }
             }
+            var sDatePref = Preferences.Get("StartDate", System.DateTime.Now);
+            if (sDatePref != null)
+            {
+                DatePicker sDate = (DatePicker)FindViewById(Resource.Id.datePicker2);
+                if (sDate != null)
+                {
+                    sDate.DateTime = sDatePref;
+                    var rText = FindViewById<TextView>(Resource.Id.remainingdays);
+                    if (rText != null)
+                    {
+                        rText.Text = "You've been down " + (System.DateTime.Now - sDate.DateTime).TotalDays + " days.";
+                    }
+
+                }
+            }
             var rDatePref = Preferences.Get("ReleaseDate", System.DateTime.Now);
             if (rDatePref != null)
             {
@@ -46,9 +61,10 @@ namespace counttime
                     {
 
                     }
-                    rText.Text = (rDate.DateTime - System.DateTime.Now).TotalDays + " days to release.";
+                    rText.Text += System.Environment.NewLine + (rDate.DateTime - System.DateTime.Now).TotalDays + " days to release.";
                 }
             }
+            
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
@@ -77,13 +93,26 @@ namespace counttime
                 Preferences.Set("Name", name.Text);
             }
             DatePicker dp = (DatePicker)FindViewById(Resource.Id.datePicker1);
+            DatePicker sDate = (DatePicker)FindViewById(Resource.Id.datePicker2);
+            if (dp != null)
+            {
+                Preferences.Set("StartDate", sDate.DateTime);
+                var rText = FindViewById<TextView>(Resource.Id.remainingdays);
+                if (rText != null)
+                {
+                    rText.Text = "You've been down " + (System.DateTime.Now - sDate.DateTime).TotalDays + " days.";
+                }
+            }
+            
             if (dp != null)
             {
                 Preferences.Set("ReleaseDate", dp.DateTime);
-                FindViewById<TextView>(Resource.Id.remainingdays).Text = (dp.DateTime - System.DateTime.Now).TotalDays + " days to release.";
-                return true;
+                FindViewById<TextView>(Resource.Id.remainingdays).Text += System.Environment.NewLine + (dp.DateTime - System.DateTime.Now).TotalDays + " days to release.";
+
             }
+
             
+
             return true;
         }
     }
