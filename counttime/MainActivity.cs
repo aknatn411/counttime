@@ -5,6 +5,7 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using Google.Android.Material.BottomNavigation;
+using System;
 using Xamarin.Essentials;
 
 namespace counttime
@@ -23,8 +24,22 @@ namespace counttime
             textMessage = FindViewById<TextView>(Resource.Id.message);
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
             navigation.SetOnNavigationItemSelectedListener(this);
+
+            DatePickerDialog startDateDialog = new DatePickerDialog(this, OnStartDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            DatePickerDialog releaseDateDialog = new DatePickerDialog(this, OnReleaseDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+
             Button calculate = FindViewById<Button>(Resource.Id.calculate);
             calculate.Click += (sender, e) => { OnCalculateClick(); };
+            EditText txtStartDate = FindViewById<EditText>(Resource.Id.startDate);
+            txtStartDate.Click += (sender, e) =>
+            {
+                startDateDialog.Show();
+            };
+            EditText txtReleaseDate = FindViewById<EditText>(Resource.Id.releaseDate);
+            txtReleaseDate.Click += (sender, e) =>
+            {
+                releaseDateDialog.Show();
+            };
             var namePref = Preferences.Get("Name", string.Empty);
             if (namePref != string.Empty)
             {
@@ -37,14 +52,15 @@ namespace counttime
             var sDatePref = Preferences.Get("StartDate", System.DateTime.Now);
             if (sDatePref != null)
             {
-                DatePicker sDate = (DatePicker)FindViewById(Resource.Id.datePicker2);
+                startDateDialog.DatePicker.DateTime = sDatePref;
+                EditText sDate = (EditText)FindViewById(Resource.Id.startDate);
                 if (sDate != null)
                 {
-                    sDate.DateTime = sDatePref;
-                    var rText = FindViewById<TextView>(Resource.Id.remainingdays);
-                    if (rText != null)
+                    sDate.Text = sDatePref.ToShortDateString();
+                    var rText2 = FindViewById<TextView>(Resource.Id.remainingdays);
+                    if (rText2 != null)
                     {
-                        rText.Text = "You've been down " + (System.DateTime.Now - sDate.DateTime).TotalDays + " days.";
+                        rText2.Text = "You've been down " + Math.Round((System.DateTime.Now - DateTime.Parse(sDate.Text)).TotalDays, 0).ToString("n0") + " days.";
                     }
 
                 }
@@ -52,20 +68,43 @@ namespace counttime
             var rDatePref = Preferences.Get("ReleaseDate", System.DateTime.Now);
             if (rDatePref != null)
             {
-                DatePicker rDate = (DatePicker)FindViewById(Resource.Id.datePicker1);
+                releaseDateDialog.DatePicker.DateTime = rDatePref;
+                EditText rDate = (EditText)FindViewById(Resource.Id.releaseDate);
                 if (rDate != null)
                 {
-                    rDate.DateTime = rDatePref;
-                    var rText = FindViewById<TextView>(Resource.Id.remainingdays);
-                    if (rText != null)
+                    rDate.Text = rDatePref.ToShortDateString();
+                    var rText3 = FindViewById<TextView>(Resource.Id.remainingdays);
+                    if (rText3 != null)
                     {
 
                     }
-                    rText.Text += System.Environment.NewLine + (rDate.DateTime - System.DateTime.Now).TotalDays + " days to release.";
+                    rText3.Text += System.Environment.NewLine + Math.Round((DateTime.Parse(rDate.Text) - System.DateTime.Now).TotalDays, 0).ToString("n0") + " days to release.";
                 }
             }
-            
+
+            ProgressBar progressBar1 = FindViewById<ProgressBar>(Resource.Id.progressBar1);
+            var totDays = (rDatePref - sDatePref).TotalDays;
+            var comDays = (DateTime.Now - sDatePref).TotalDays;
+            var totProgress = (comDays / totDays) * 100;
+            var rText = FindViewById<TextView>(Resource.Id.remainingdays);
+            rText.Text += System.Environment.NewLine + Math.Round(totProgress, 2) + "% of the way there, keep it up!";
+
         }
+
+        private void OnStartDateSet(object sender, DatePickerDialog.DateSetEventArgs e)
+        {
+            EditText txtPrefDate = FindViewById<EditText>(Resource.Id.startDate);
+            txtPrefDate.Text = e.Date.ToShortDateString();
+            return;
+        }
+
+        private void OnReleaseDateSet(object sender, DatePickerDialog.DateSetEventArgs e)
+        {
+            EditText txtPrefDate = FindViewById<EditText>(Resource.Id.releaseDate);
+            txtPrefDate.Text = e.Date.ToShortDateString();
+            return;
+        }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -92,26 +131,31 @@ namespace counttime
             {
                 Preferences.Set("Name", name.Text);
             }
-            DatePicker dp = (DatePicker)FindViewById(Resource.Id.datePicker1);
-            DatePicker sDate = (DatePicker)FindViewById(Resource.Id.datePicker2);
-            if (dp != null)
+            EditText rDate = (EditText)FindViewById(Resource.Id.releaseDate);
+            EditText sDate = (EditText)FindViewById(Resource.Id.startDate);
+            if (sDate != null)
             {
-                Preferences.Set("StartDate", sDate.DateTime);
-                var rText = FindViewById<TextView>(Resource.Id.remainingdays);
-                if (rText != null)
+                Preferences.Set("StartDate", DateTime.Parse(sDate.Text));
+                var rText4 = FindViewById<TextView>(Resource.Id.remainingdays);
+                if (rText4 != null)
                 {
-                    rText.Text = "You've been down " + (System.DateTime.Now - sDate.DateTime).TotalDays + " days.";
+                    rText4.Text = "You've been down " + Math.Round((System.DateTime.Now - DateTime.Parse(sDate.Text)).TotalDays, 0).ToString("n0") + " days.";
                 }
             }
             
-            if (dp != null)
+            if (rDate != null)
             {
-                Preferences.Set("ReleaseDate", dp.DateTime);
-                FindViewById<TextView>(Resource.Id.remainingdays).Text += System.Environment.NewLine + (dp.DateTime - System.DateTime.Now).TotalDays + " days to release.";
+                Preferences.Set("ReleaseDate", DateTime.Parse(rDate.Text));
+                FindViewById<TextView>(Resource.Id.remainingdays).Text += System.Environment.NewLine + Math.Round((DateTime.Parse(rDate.Text) - System.DateTime.Now).TotalDays, 0).ToString("n0") + " days to release.";
 
             }
 
-            
+            ProgressBar progressBar1 = FindViewById<ProgressBar>(Resource.Id.progressBar1);
+            var totDays = (DateTime.Parse(rDate.Text) - DateTime.Parse(sDate.Text)).TotalDays;
+            var comDays = (DateTime.Now - (DateTime.Parse(sDate.Text))).TotalDays;
+            var totProgress = (comDays / totDays) * 100;
+            var rText = FindViewById<TextView>(Resource.Id.remainingdays);
+            rText.Text += System.Environment.NewLine + Math.Round(totProgress, 2) + "% of the way there, keep it up!";
 
             return true;
         }
