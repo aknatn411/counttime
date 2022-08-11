@@ -4,8 +4,11 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using counttime.Data;
 using Google.Android.Material.BottomNavigation;
 using System;
+using System.IO;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace counttime
@@ -14,12 +17,27 @@ namespace counttime
     public class MainActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
     {
         TextView textMessage;
+        static CountTimeDatabase database;
 
+        // Create the database connection as a singleton.
+        public static CountTimeDatabase Database
+        {
+            get
+            {
+                if (database == null)
+                {
+                    database = new CountTimeDatabase(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "CountTimeDatabase.db3"));
+                }
+                return database;
+            }
+        }
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
+
+            Task task = getProfileAsync();
 
             textMessage = FindViewById<TextView>(Resource.Id.message);
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
@@ -158,6 +176,10 @@ namespace counttime
             rText.Text += System.Environment.NewLine + Math.Round(totProgress, 2) + "% of the way there, keep it up!";
 
             return true;
+        }
+        public async Task getProfileAsync()
+        {
+            var dbResult = await Database.GetProfilesAsync();
         }
     }
 }
