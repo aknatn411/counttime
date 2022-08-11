@@ -10,8 +10,6 @@ using Google.Android.Material.BottomNavigation;
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Xamarin.Essentials;
 
 namespace counttime
 {
@@ -39,7 +37,7 @@ namespace counttime
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
-            Task task = getProfileAsync();
+            var UserProfile = getProfile();
 
             textMessage = FindViewById<TextView>(Resource.Id.message);
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
@@ -49,7 +47,7 @@ namespace counttime
             DatePickerDialog releaseDateDialog = new DatePickerDialog(this, OnReleaseDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
             Button calculate = FindViewById<Button>(Resource.Id.calculate);
-            calculate.Click += (sender, e) => { OnCalculateClick(); };
+            calculate.Click += (sender, e) => { OnCalculateClick(UserProfile, Database); };
             EditText txtStartDate = FindViewById<EditText>(Resource.Id.startDate);
             txtStartDate.Click += (sender, e) =>
             {
@@ -60,16 +58,12 @@ namespace counttime
             {
                 releaseDateDialog.Show();
             };
-            var namePref = Preferences.Get("Name", string.Empty);
-            if (namePref != string.Empty)
+            var UserNameField = FindViewById<TextView>(Resource.Id.UserName);
+            if (UserNameField != null)
             {
-                var name = FindViewById<TextView>(Resource.Id.editText1);
-                if (name != null)
-                {
-                    name.Text = namePref;
-                }
+                UserNameField.Text = UserProfile.UserName;
             }
-            var sDatePref = Preferences.Get("StartDate", System.DateTime.Now);
+            var sDatePref = UserProfile.StartDate ??= DateTime.Now;
             if (sDatePref != null)
             {
                 startDateDialog.DatePicker.DateTime = sDatePref;
@@ -85,7 +79,7 @@ namespace counttime
 
                 }
             }
-            var rDatePref = Preferences.Get("ReleaseDate", System.DateTime.Now);
+            var rDatePref = UserProfile.EndDate ??= DateTime.Now;
             if (rDatePref != null)
             {
                 releaseDateDialog.DatePicker.DateTime = rDatePref;
@@ -108,6 +102,8 @@ namespace counttime
             var totProgress = (comDays / totDays) * 100;
             var rText = FindViewById<TextView>(Resource.Id.remainingdays);
             rText.Text += System.Environment.NewLine + Math.Round(totProgress, 2) + "% of the way there, keep it up!";
+
+            progressBar1.Progress = (int)totProgress;
 
         }
 
@@ -144,44 +140,50 @@ namespace counttime
             }
             return false;
         }
-        public bool OnCalculateClick()
+        public bool OnCalculateClick(Profile UserProfile, CountTimeDatabase Database)
         {
-            var name = FindViewById<TextView>(Resource.Id.editText1);
+            var name = FindViewById<TextView>(Resource.Id.UserName);
             if (name != null)
             {
-                Preferences.Set("Name", name.Text);
+                UserProfile.UserName = name.Text;
             }
+
             EditText rDate = (EditText)FindViewById(Resource.Id.releaseDate);
             EditText sDate = (EditText)FindViewById(Resource.Id.startDate);
             if (sDate != null)
             {
-                Preferences.Set("StartDate", DateTime.Parse(sDate.Text));
+                UserProfile.StartDate = DateTime.Parse(sDate.Text);
                 var rText4 = FindViewById<TextView>(Resource.Id.remainingdays);
                 if (rText4 != null)
                 {
                     rText4.Text = "You've been down " + Math.Round((System.DateTime.Now - DateTime.Parse(sDate.Text)).TotalDays, 0).ToString("n0") + " days.";
                 }
             }
-            
+
             if (rDate != null)
             {
-                Preferences.Set("ReleaseDate", DateTime.Parse(rDate.Text));
+                UserProfile.EndDate = DateTime.Parse(rDate.Text);
                 FindViewById<TextView>(Resource.Id.remainingdays).Text += System.Environment.NewLine + Math.Round((DateTime.Parse(rDate.Text) - System.DateTime.Now).TotalDays, 0).ToString("n0") + " days to release.";
 
             }
 
+            _ = Database.SaveProfile(UserProfile);
+
             ProgressBar progressBar1 = FindViewById<ProgressBar>(Resource.Id.progressBar1);
+
             var totDays = (DateTime.Parse(rDate.Text) - DateTime.Parse(sDate.Text)).TotalDays;
             var comDays = (DateTime.Now - (DateTime.Parse(sDate.Text))).TotalDays;
             var totProgress = (comDays / totDays) * 100;
             var rText = FindViewById<TextView>(Resource.Id.remainingdays);
             rText.Text += System.Environment.NewLine + Math.Round(totProgress, 2) + "% of the way there, keep it up!";
+            var calc = (int)((comDays / totDays) *100);
+            progressBar1.Progress = calc;
 
             return true;
         }
-        public async Task<Profile> getProfileAsync()
+        public Profile getProfile()
         {
-            var dbResult = await Database.GetProfilesAsync();
+            var dbResult = Database.GetProfiles();
             if (dbResult.Count == 0)
             {
                 var profile = new Profile();
@@ -192,14 +194,14 @@ namespace counttime
                 profile.SentenceLengthMonths = 0;
                 profile.TimeServedDays = 0;
 
-                var saveResult = await Database.SaveProfileAsync(profile);
+                var saveResult = Database.SaveProfile(profile);
                 if (saveResult > 0)
                 {
-                    var newProfile = await Database.GetProfileAsync(saveResult);
+                    var newProfile = Database.GetProfile(saveResult);
                     return newProfile;
                 }
             }
-            else if(dbResult.Count == 1)
+            else if (dbResult.Count == 1)
             {
                 return dbResult.First();
             }

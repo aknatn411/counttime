@@ -16,45 +16,45 @@ namespace counttime.Data
 {
     public class CountTimeDatabase
     {
-        readonly SQLiteAsyncConnection database;
+        readonly SQLiteConnection database;
 
         public CountTimeDatabase(string dbPath)
         {
-            database = new SQLiteAsyncConnection(dbPath);
-            database.CreateTableAsync<Profile>().Wait();
-            database.CreateTableAsync<Event>().Wait();
-            database.CreateTableAsync<EventEntry>().Wait();
-            database.CreateTableAsync<Diary>().Wait();
+            database = new SQLiteConnection(dbPath);
+            database.CreateTable<Profile>();
+            database.CreateTable<Event>();
+            database.CreateTable<EventEntry>();
+            database.CreateTable<Diary>();
         }
-        public Task<List<Profile>> GetProfilesAsync()
+        public List<Profile> GetProfiles()
         {
             //Get all notes.
-            return database.Table<Profile>().ToListAsync();
+            return database.Table<Profile>().ToList();
         }
-        public Task<Profile> GetProfileAsync(int id)
+        public Profile GetProfile(int id)
         {
             // Get a specific note.
             return database.Table<Profile>()
                             .Where(i => i.Id == id)
-                            .FirstOrDefaultAsync();
+                            .FirstOrDefault();
         }
-        public Task<int> SaveProfileAsync(Profile profile)
+        public int SaveProfile(Profile profile)
         {
             if (profile.Id != 0)
             {
                 // Update an existing note.
-                return database.UpdateAsync(profile);
+                return database.Update(profile);
             }
             else
             {
                 // Save a new note.
-                return database.InsertAsync(profile);
+                return database.Insert(profile);
             }
         }
-        public Task<int> DeleteProfileAsync(Profile profile)
+        public int DeleteProfile(Profile profile)
         {
             // Delete a note.
-            return database.DeleteAsync(profile);
+            return database.Delete(profile);
         }
     }
 }

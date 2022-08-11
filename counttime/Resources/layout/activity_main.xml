@@ -16,11 +16,11 @@
         
 
     <EditText
-        android:inputType="textPersonName"
+        android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView1"
-        android:id="@+id/editText1" />
+        android:id="@+id/UserName" />
 
         
 
@@ -29,7 +29,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editText1"
+        android:layout_below="@id/UserName"
         android:id="@+id/startDateText" />
     <EditText
             android:editable="false"
@@ -69,7 +69,7 @@
         android:id="@+id/remainingdays" />
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/remainingdays"
         android:id="@+id/progressBar1" />
