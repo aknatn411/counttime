@@ -19,8 +19,12 @@ namespace counttime.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string UserName { get; set; }
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int TimeServedDays { get; set; }
         public int SentenceLengthMonths { get; set; }
+        public int? SentenceDateId { get; set; }
+        public int? StartDateId { get; set; }
+        public int? EndDateId { get; set; }
+        public int? ProjectedReleaseDateId { get; set; }
     }
 }

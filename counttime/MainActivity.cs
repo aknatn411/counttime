@@ -5,9 +5,11 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using counttime.Data;
+using counttime.Models;
 using Google.Android.Material.BottomNavigation;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -177,9 +179,31 @@ namespace counttime
 
             return true;
         }
-        public async Task getProfileAsync()
+        public async Task<Profile> getProfileAsync()
         {
             var dbResult = await Database.GetProfilesAsync();
+            if (dbResult.Count == 0)
+            {
+                var profile = new Profile();
+                profile.FirstName = String.Empty;
+                profile.LastName = String.Empty;
+                profile.UserName = String.Empty;
+                profile.UserId = String.Empty;
+                profile.SentenceLengthMonths = 0;
+                profile.TimeServedDays = 0;
+
+                var saveResult = await Database.SaveProfileAsync(profile);
+                if (saveResult > 0)
+                {
+                    var newProfile = await Database.GetProfileAsync(saveResult);
+                    return newProfile;
+                }
+            }
+            else if(dbResult.Count == 1)
+            {
+                return dbResult.First();
+            }
+            return null;
         }
     }
 }
