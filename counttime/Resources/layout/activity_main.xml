@@ -8,7 +8,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:text="Name:"
+        android:text="User Name:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:id="@+id/startDateText" />
     <EditText
             android:editable="false"
-            android:inputType="date"
+            android:inputType="none"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/startDateText"
@@ -50,10 +50,13 @@
 
 
     <EditText
+        android:editable="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/textView2"
-        android:id="@+id/releaseDate" />
+        android:id="@+id/releaseDate"
+        android:inputType="none" />
+
     <Button
         android:text="Save"
         android:layout_width="wrap_content"
@@ -69,6 +72,8 @@
         android:id="@+id/remainingdays" />
     <ProgressBar
         style="?android:attr/progressBarStyleHorizontal"
+        android:paddingTop="10dp"
+        android:scaleY="10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/remainingdays"
@@ -82,7 +87,7 @@
         android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
         android:background="?android:attr/windowBackground"
-        android:layout_below="@id/progressBar1"
+        android:layout_alignParentBottom="true"
         app:menu="@menu/navigation" />
 
 

@@ -49,12 +49,12 @@ namespace counttime
             Button calculate = FindViewById<Button>(Resource.Id.calculate);
             calculate.Click += (sender, e) => { OnCalculateClick(UserProfile, Database); };
             EditText txtStartDate = FindViewById<EditText>(Resource.Id.startDate);
-            txtStartDate.Click += (sender, e) =>
+            txtStartDate.Touch += (sender, e) =>
             {
                 startDateDialog.Show();
             };
             EditText txtReleaseDate = FindViewById<EditText>(Resource.Id.releaseDate);
-            txtReleaseDate.Click += (sender, e) =>
+            txtReleaseDate.Touch += (sender, e) =>
             {
                 releaseDateDialog.Show();
             };
@@ -132,10 +132,10 @@ namespace counttime
             switch (item.ItemId)
             {
                 case Resource.Id.navigation_home:
-                    SetContentView(Resource.Layout.activity_main);
+                    //SetContentView(Resource.Layout.activity_main);
                     return true;
                 case Resource.Id.navigation_dashboard:
-                    SetContentView(Resource.Layout.layout1);
+                    //SetContentView(Resource.Layout.layout1);
                     return true;
             }
             return false;
