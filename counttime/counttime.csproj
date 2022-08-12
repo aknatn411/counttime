@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\CountTimeDatabase.cs" />
+    <Compile Include="EventAddActivity.cs" />
     <Compile Include="EventListActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Models\Diary.cs" />
@@ -136,6 +137,11 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_EventList.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_EventAdd.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

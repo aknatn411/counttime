@@ -1,19 +1,16 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
-using AndroidX.RecyclerView.Widget;
 using counttime.Data;
 using counttime.Models;
 using Google.Android.Material.BottomNavigation;
-using System;
+using Google.Android.Material.Button;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace counttime
 {
@@ -44,7 +41,7 @@ namespace counttime
                     StartActivity(intent);
                     return true;
                 case Resource.Id.navigation_events:
-                    
+
                     //SetContentView(Resource.Layout.activity);
                     return true;
             }
@@ -62,10 +59,19 @@ namespace counttime
 
             this.UserProfile = Database.GetProfiles().FirstOrDefault();
             ListView listView = FindViewById<ListView>(Resource.Id.EventListView);
-
-            string[] items = new string[] { "Vegetables", "Fruits", "Flower Buds", "Legumes", "Bulbs", "Tubers" };
-            List<string> itemsList = new List<string>(items);
-            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleExpandableListItem1, itemsList);
+            MaterialButton addEventButton = FindViewById<MaterialButton>(Resource.Id.AddEventButton);
+            addEventButton.Click += (sender, e) =>
+            {
+                Intent intent = new Intent(this, typeof(EventAddActivity));
+                StartActivity(intent);
+            };
+            var ctEvents = Database.GetEvents();
+            List<string> items = new List<string>();
+            foreach (Event e in ctEvents)
+            {
+                items.Add(e.Name + " " + e.EventStartDate);
+            }
+            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleExpandableListItem1, items);
             listView.Adapter = adapter;
         }
     }

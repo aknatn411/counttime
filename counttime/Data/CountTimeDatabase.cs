@@ -1,16 +1,6 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using counttime.Models;
+﻿using counttime.Models;
 using SQLite;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace counttime.Data
 {
@@ -56,5 +46,32 @@ namespace counttime.Data
             // Delete a note.
             return database.Delete(profile);
         }
+
+        public List<Event> GetEvents()
+        {
+            return database.Table<Event>().ToList();
+        }
+        public Event GetEvent(int id)
+        {
+            return database.Table<Event>()
+                            .Where(i => i.Id == id)
+                            .FirstOrDefault();
+        }
+        public int SaveEvent(Event ctEvent)
+        {
+            if (ctEvent.Id != 0)
+            {
+            return database.Update(ctEvent);
+        }
+            else
+            {
+                return database.Insert(ctEvent);
+        }
     }
+    public int DeleteEvent(Event ctEvent)
+    {
+        // Delete a note.
+        return database.Delete(ctEvent);
+    }
+}
 }
