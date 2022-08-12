@@ -1,4 +1,5 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -134,8 +135,10 @@ namespace counttime
                 case Resource.Id.navigation_home:
                     //SetContentView(Resource.Layout.activity_main);
                     return true;
-                case Resource.Id.navigation_dashboard:
-                    //SetContentView(Resource.Layout.layout1);
+                case Resource.Id.navigation_events:
+                    Intent intent = new Intent(this, typeof(EventListActivity));
+                    StartActivity(intent);
+                    //SetContentView(Resource.Layout.activity);
                     return true;
             }
             return false;
