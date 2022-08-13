@@ -13,8 +13,8 @@ namespace counttime.Data
             database = new SQLiteConnection(dbPath);
             database.CreateTable<Profile>();
             database.CreateTable<Event>();
-            database.CreateTable<EventEntry>();
             database.CreateTable<Diary>();
+            
         }
         public List<Profile> GetProfiles()
         {

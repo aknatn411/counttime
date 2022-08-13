@@ -4,6 +4,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace counttime.Models
 {
     public class Event
     {
+        [AutoIncrement, PrimaryKey]
         public int Id { get; set; }
         public string Name { get; set; }
         public int ProfileId { get; set; }

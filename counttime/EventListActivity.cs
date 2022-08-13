@@ -8,6 +8,7 @@ using counttime.Data;
 using counttime.Models;
 using Google.Android.Material.BottomNavigation;
 using Google.Android.Material.Button;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace counttime
             }
         }
         public Profile UserProfile;
+        public List<Event> EventList;
         public bool OnNavigationItemSelected(IMenuItem item)
         {
             switch (item.ItemId)
@@ -65,14 +67,69 @@ namespace counttime
                 Intent intent = new Intent(this, typeof(EventAddActivity));
                 StartActivity(intent);
             };
-            var ctEvents = Database.GetEvents();
-            List<string> items = new List<string>();
-            foreach (Event e in ctEvents)
-            {
-                items.Add(e.Name + " " + e.EventStartDate);
-            }
-            var adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleExpandableListItem1, items);
+            EventList = Database.GetEvents();
+            var adapter = new EventAdapter(this, EventList);
             listView.Adapter = adapter;
+            listView.ItemClick += listViewItemClickHandler;
+        }
+
+        private void listViewItemClickHandler(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            var ctEvent = EventList.ElementAt(e.Position);
+            var select = ctEvent.Name + " " + ctEvent.Id;
+            Android.Widget.Toast.MakeText(this, select, Android.Widget.ToastLength.Long).Show();
+
+            Intent intent = new Intent(this, typeof(EventAddActivity));
+            intent.PutExtra("EventId", ctEvent.Id);
+            StartActivity(intent);
+        }
+    }
+
+    public class EventAdapter : BaseAdapter<Event>
+    {
+        public List<Event> sList;
+        private Context sContext;
+        public EventAdapter(Context context, List<Event> list)
+        {
+            sList = list;
+            sContext = context;
+        }
+        public override Event this[int position]
+        {
+            get
+            {
+                return sList[position];
+            }
+        }
+        public override int Count
+        {
+            get
+            {
+                return sList.Count;
+            }
+        }
+        public override long GetItemId(int position)
+        {
+            return position;
+        }
+        public override View GetView(int position, View convertView, ViewGroup parent)
+        {
+            View row = convertView;
+            try
+            {
+                if (row == null)
+                {
+                    row = LayoutInflater.From(sContext).Inflate(Resource.Layout.event_expandableListItem, null, false);
+                }
+                TextView txtName = row.FindViewById<TextView>(Resource.Id.ListEventName);
+                txtName.Text = sList[position].Name + " " + sList[position].EventStartDate.ToShortDateString();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
+            finally { }
+            return row;
         }
     }
 }

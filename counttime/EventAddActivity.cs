@@ -20,6 +20,7 @@ namespace counttime
     public class EventAddActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
     {
         static CountTimeDatabase database;
+        private Event ctEventEdit;
 
         // Create the database connection as a singleton.
         public static CountTimeDatabase Database
@@ -61,6 +62,10 @@ namespace counttime
             navigation.SetOnNavigationItemSelectedListener(this);
 
             this.UserProfile = Database.GetProfiles().FirstOrDefault();
+            if(Intent.GetIntExtra("EventId", 0) != 0)
+            {
+                ctEventEdit = database.GetEvent(Intent.GetIntExtra("EventId", 0));
+            }
 
             DatePickerDialog startDateDialog = new DatePickerDialog(this, OnStartDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
             DatePickerDialog endDateDialog = new DatePickerDialog(this, OnEndDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
@@ -86,10 +91,10 @@ namespace counttime
             };
 
             Button saveEvent = FindViewById<Button>(Resource.Id.SaveEvent);
-            saveEvent.Click += (sender, e) => { OnSaveEventTouch(UserProfile, Database); };
+            saveEvent.Click += (sender, e) => { OnSaveEventTouch(); };
         }
 
-        private void OnSaveEventTouch(Profile userProfile, CountTimeDatabase database)
+        private void OnSaveEventTouch()
         {
             Event newEvent = new Event()
             {
