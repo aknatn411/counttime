@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:templates="clr-namespace:counttimeforms.Views.Templates"
+             Title="{Binding Title}"
+             BackgroundColor="{StaticResource NormalBackgroundColor}"
+             x:Class="counttimeforms.Views.AboutPage">
+    <NavigationPage.TitleView>
+        <templates:DrawerTitleView/>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Image Grid.RowSpan="2" Source="ic_background" HorizontalOptions="FillAndExpand" Aspect="AspectFill" />
+                <Image Source="ic_xamarin_logo" Margin="0,20,0,0"/>
+                <StackLayout Grid.Row="1" VerticalOptions="Center" Margin="0,10,0,20">
+                    <Label Text="Count Time" FontFamily="Univia-Pro" FontSize="Medium" HorizontalOptions="Center" TextColor="{StaticResource NormalText}"/>
+                </StackLayout>                
+            </Grid>
+            <ScrollView Grid.Row="1">
+                <StackLayout Orientation="Vertical" Padding="25,15,25,15" Spacing="10">
+                    <Label Text="Count Time Inmate Time Helper" FontFamily="Roboto-Bold" FontSize="18" TextColor="{StaticResource NormalText}"/>
+                    <Label Text="" FontFamily="Roboto" FontSize="16" TextColor="{StaticResource NormalText}"/>
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
