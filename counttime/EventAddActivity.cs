@@ -48,6 +48,11 @@ namespace counttime
                     StartActivity(intent2);
                     //SetContentView(Resource.Layout.activity);
                     return true;
+                case Resource.Id.navigation_diary:
+                    Intent intent3 = new Intent(this, typeof(DiaryListActivity));
+                    StartActivity(intent3);
+                    //SetContentView(Resource.Layout.activity);
+                    return true;
             }
             return false;
         }
@@ -104,6 +109,8 @@ namespace counttime
             }
             else
             {
+                startDateDialog.UpdateDate(DateTime.Now);
+                endDateDialog.UpdateDate(DateTime.Now);
                 FindViewById<Button>(Resource.Id.DeleteEvent).Visibility = ViewStates.Invisible;
             }
 

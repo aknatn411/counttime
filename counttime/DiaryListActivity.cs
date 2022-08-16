@@ -16,7 +16,7 @@ using System.Linq;
 namespace counttime
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = false)]
-    public class EventListActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
+    public class DiaryListActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
     {
         static CountTimeDatabase database;
 
@@ -33,7 +33,7 @@ namespace counttime
             }
         }
         public Profile UserProfile;
-        public List<Event> EventList;
+        public List<Diary> DiaryList;
         public bool OnNavigationItemSelected(IMenuItem item)
         {
             switch (item.ItemId)
@@ -43,12 +43,13 @@ namespace counttime
                     StartActivity(intent);
                     return true;
                 case Resource.Id.navigation_events:
-
+                    Intent intent2 = new Intent(this, typeof(EventListActivity));
+                    StartActivity(intent2);
                     //SetContentView(Resource.Layout.activity);
                     return true;
                 case Resource.Id.navigation_diary:
-                    Intent intent2 = new Intent(this, typeof(DiaryListActivity));
-                    StartActivity(intent2);
+                    //Intent intent = new Intent(this, typeof(DiaryListActivity));
+                    //StartActivity(intent);
                     //SetContentView(Resource.Layout.activity);
                     return true;
             }
@@ -60,45 +61,45 @@ namespace counttime
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            SetContentView(Resource.Layout.activity_EventList);
-            BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation3);
+            SetContentView(Resource.Layout.activity_DiaryList);
+            BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation5);
             navigation.SetOnNavigationItemSelectedListener(this);
 
             this.UserProfile = Database.GetProfiles().FirstOrDefault();
-            ListView listView = FindViewById<ListView>(Resource.Id.EventListView);
-            MaterialButton addEventButton = FindViewById<MaterialButton>(Resource.Id.AddEventButton);
-            addEventButton.Click += (sender, e) =>
+            ListView listView = FindViewById<ListView>(Resource.Id.DiaryListView);
+            MaterialButton addDiaryButton = FindViewById<MaterialButton>(Resource.Id.AddDiaryButton);
+            addDiaryButton.Click += (sender, e) =>
             {
-                Intent intent = new Intent(this, typeof(EventAddActivity));
+                Intent intent = new Intent(this, typeof(DiaryAddActivity));
                 StartActivity(intent);
             };
-            EventList = Database.GetEvents();
-            EventList.OrderBy(e => e.EventStartDate);
-            var adapter = new EventAdapter(this, EventList);
+            DiaryList = Database.GetDiarys();
+            DiaryList.OrderByDescending(e => e.CreatedDate);
+            var adapter = new DiaryAdapter(this, DiaryList);
             listView.Adapter = adapter;
             listView.ItemClick += listViewItemClickHandler;
         }
 
         private void listViewItemClickHandler(object sender, AdapterView.ItemClickEventArgs e)
         {
-            var ctEvent = EventList.ElementAt(e.Position);
+            var ctDiary = DiaryList.ElementAt(e.Position);
             
-            Intent intent = new Intent(this, typeof(EventAddActivity));
-            intent.PutExtra("EventId", ctEvent.Id);
+            Intent intent = new Intent(this, typeof(DiaryAddActivity));
+            intent.PutExtra("DiaryId", ctDiary.Id);
             StartActivity(intent);
         }
     }
 
-    public class EventAdapter : BaseAdapter<Event>
+    public class DiaryAdapter : BaseAdapter<Diary>
     {
-        public List<Event> sList;
+        public List<Diary> sList;
         private Context sContext;
-        public EventAdapter(Context context, List<Event> list)
+        public DiaryAdapter(Context context, List<Diary> list)
         {
             sList = list;
             sContext = context;
         }
-        public override Event this[int position]
+        public override Diary this[int position]
         {
             get
             {
@@ -123,10 +124,10 @@ namespace counttime
             {
                 if (row == null)
                 {
-                    row = LayoutInflater.From(sContext).Inflate(Resource.Layout.event_expandableListItem, null, false);
+                    row = LayoutInflater.From(sContext).Inflate(Resource.Layout.diary_expandableListItem, null, false);
                 }
-                TextView txtName = row.FindViewById<TextView>(Resource.Id.ListEventName);
-                txtName.Text = sList[position].Name + " " + sList[position].EventStartDate.ToShortDateString();
+                TextView txtName = row.FindViewById<TextView>(Resource.Id.ListDiaryName);
+                txtName.Text = sList[position].Subject + " " + sList[position].CreatedDate.ToShortDateString();
             }
             catch (Exception ex)
             {

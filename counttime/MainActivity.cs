@@ -140,6 +140,11 @@ namespace counttime
                     StartActivity(intent);
                     //SetContentView(Resource.Layout.activity);
                     return true;
+                case Resource.Id.navigation_diary:
+                    Intent intent2 = new Intent(this, typeof(DiaryListActivity));
+                    StartActivity(intent2);
+                    //SetContentView(Resource.Layout.activity);
+                    return true;
             }
             return false;
         }

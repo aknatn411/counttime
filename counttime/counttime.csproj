@@ -74,7 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\CountTimeDatabase.cs" />
+    <Compile Include="DiaryAddActivity.cs" />
     <Compile Include="EventAddActivity.cs" />
+    <Compile Include="DiaryListActivity.cs" />
     <Compile Include="EventListActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Models\Diary.cs" />
@@ -147,6 +149,23 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\event_expandableListItem.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_DiaryList.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_DiaryAdd.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\diary_expandableListItem.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

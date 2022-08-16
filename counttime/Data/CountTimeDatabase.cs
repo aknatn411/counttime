@@ -14,7 +14,7 @@ namespace counttime.Data
             database.CreateTable<Profile>();
             database.CreateTable<Event>();
             database.CreateTable<Diary>();
-            
+
         }
         public List<Profile> GetProfiles()
         {
@@ -61,17 +61,44 @@ namespace counttime.Data
         {
             if (ctEvent.Id != 0)
             {
-            return database.Update(ctEvent);
-        }
+                return database.Update(ctEvent);
+            }
             else
             {
                 return database.Insert(ctEvent);
+            }
+        }
+        public int DeleteEvent(Event ctEvent)
+        {
+            // Delete a note.
+            return database.Delete(ctEvent);
+        }
+
+        public List<Diary> GetDiarys()
+        {
+            return database.Table<Diary>().ToList();
+        }
+        public Diary GetDiary(int id)
+        {
+            return database.Table<Diary>()
+                            .Where(i => i.Id == id)
+                            .FirstOrDefault();
+        }
+        public int SaveDiary(Diary ctDiary)
+        {
+            if (ctDiary.Id != 0)
+            {
+                return database.Update(ctDiary);
+            }
+            else
+            {
+                return database.Insert(ctDiary);
+            }
+        }
+        public int DeleteDiary(Diary ctDiary)
+        {
+            // Delete a note.
+            return database.Delete(ctDiary);
         }
     }
-    public int DeleteEvent(Event ctEvent)
-    {
-        // Delete a note.
-        return database.Delete(ctEvent);
-    }
-}
 }
