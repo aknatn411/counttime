@@ -52,7 +52,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/EventEndDate"
         android:id="@+id/SaveEvent" />
-
+    <Button
+        android:text="Delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/SaveEvent"
+        android:id="@+id/DeleteEvent"
+        app:backgroundTint="@color/error_color_material_dark" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation4"

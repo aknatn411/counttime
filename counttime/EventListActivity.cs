@@ -76,9 +76,7 @@ namespace counttime
         private void listViewItemClickHandler(object sender, AdapterView.ItemClickEventArgs e)
         {
             var ctEvent = EventList.ElementAt(e.Position);
-            var select = ctEvent.Name + " " + ctEvent.Id;
-            Android.Widget.Toast.MakeText(this, select, Android.Widget.ToastLength.Long).Show();
-
+            
             Intent intent = new Intent(this, typeof(EventAddActivity));
             intent.PutExtra("EventId", ctEvent.Id);
             StartActivity(intent);

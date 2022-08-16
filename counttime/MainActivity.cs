@@ -171,6 +171,7 @@ namespace counttime
             }
 
             _ = Database.SaveProfile(UserProfile);
+            Android.Widget.Toast.MakeText(this, "Profile Saved", Android.Widget.ToastLength.Long).Show();
 
             ProgressBar progressBar1 = FindViewById<ProgressBar>(Resource.Id.progressBar1);
 

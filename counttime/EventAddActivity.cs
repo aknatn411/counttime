@@ -70,6 +70,8 @@ namespace counttime
             DatePickerDialog startDateDialog = new DatePickerDialog(this, OnStartDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
             DatePickerDialog endDateDialog = new DatePickerDialog(this, OnEndDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
+            
+
             EditText txtStartDate = FindViewById<EditText>(Resource.Id.EventStartDate);
             if(txtStartDate.Text == String.Empty)
             {
@@ -90,8 +92,38 @@ namespace counttime
                 endDateDialog.Show();
             };
 
+            if (ctEventEdit != null && ctEventEdit.Id > 1)
+            {
+                startDateDialog.UpdateDate(ctEventEdit.EventStartDate);
+                endDateDialog.UpdateDate(ctEventEdit.EventEndDate);
+                txtStartDate.Text = ctEventEdit.EventStartDate.ToShortDateString();
+                txtEndDate.Text = ctEventEdit.EventEndDate.ToShortDateString();
+                EditText eventeventName = FindViewById<EditText>(Resource.Id.EventName);
+                eventeventName.Text = ctEventEdit.Name;
+
+            }
+            else
+            {
+                FindViewById<Button>(Resource.Id.DeleteEvent).Visibility = ViewStates.Invisible;
+            }
+
             Button saveEvent = FindViewById<Button>(Resource.Id.SaveEvent);
             saveEvent.Click += (sender, e) => { OnSaveEventTouch(); };
+
+            Button deleteEvent = FindViewById<Button>(Resource.Id.DeleteEvent);
+            deleteEvent.Click += (sender, e) => { OnDeleteEventTouch(); };
+        }
+
+        private void OnDeleteEventTouch()
+        {
+            if (ctEventEdit != null && ctEventEdit.Id > 0)
+            {
+                Database.DeleteEvent(ctEventEdit);
+                Android.Widget.Toast.MakeText(this, "Event Deleted", Android.Widget.ToastLength.Long).Show();
+                Intent intent3 = new Intent(this, typeof(EventListActivity));
+                StartActivity(intent3);
+            }
+            
         }
 
         private void OnSaveEventTouch()
@@ -106,7 +138,13 @@ namespace counttime
                 IsEditable = true,
                 IsSystem = false,
             };
+            if(ctEventEdit != null && ctEventEdit.Id > 0)
+            {
+                newEvent.Id = ctEventEdit.Id;
+            }
             Database.SaveEvent(newEvent);
+            Android.Widget.Toast.MakeText(this, "Event Saved", Android.Widget.ToastLength.Long).Show();
+
             Intent intent2 = new Intent(this, typeof(EventListActivity));
             StartActivity(intent2);
         }
