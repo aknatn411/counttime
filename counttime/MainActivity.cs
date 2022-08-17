@@ -105,7 +105,8 @@ namespace counttime
             rText.Text += System.Environment.NewLine + Math.Round(totProgress, 2) + "% of the way there, keep it up!";
 
             progressBar1.Progress = (int)totProgress;
-
+            var percentText = FindViewById<TextView>(Resource.Id.mainPercentText);
+            percentText.Text = Math.Round(totProgress, 0) + "%";
         }
 
         private void OnStartDateSet(object sender, DatePickerDialog.DateSetEventArgs e)
@@ -185,9 +186,10 @@ namespace counttime
             var totProgress = (comDays / totDays) * 100;
             var rText = FindViewById<TextView>(Resource.Id.remainingdays);
             rText.Text += System.Environment.NewLine + Math.Round(totProgress, 2) + "% of the way there, keep it up!";
-            var calc = (int)((comDays / totDays) *100);
+            var calc = (int)((comDays / totDays) * 100);
             progressBar1.Progress = calc;
-
+            var percentText = FindViewById<TextView>(Resource.Id.mainPercentText);
+            percentText.Text = Math.Round(totProgress, 0) + "%";
             return true;
         }
         public Profile getProfile()

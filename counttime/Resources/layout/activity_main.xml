@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView1" />
-        
+
 
     <EditText
         android:inputType="text"
@@ -22,7 +22,7 @@
         android:layout_below="@id/textView1"
         android:id="@+id/UserName" />
 
-        
+
 
     <TextView
         android:text="Start Date:"
@@ -32,12 +32,12 @@
         android:layout_below="@id/UserName"
         android:id="@+id/startDateText" />
     <EditText
-            android:editable="false"
-            android:inputType="none"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/startDateText"
-            android:id="@+id/startDate" />
+        android:editable="false"
+        android:inputType="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/startDateText"
+        android:id="@+id/startDate" />
 
     <TextView
         android:text="Release Date:"
@@ -79,7 +79,25 @@
         android:layout_below="@id/remainingdays"
         android:id="@+id/progressBar1" />
 
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_below="@id/progressBar1"
+        android:src="@drawable/bluering"
+        android:id="@+id/MainCircle"/>
+    <TextView
+        android:text="100%"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="42pt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="145dp"
+        android:layout_below="@id/progressBar1"
+        android:layout_gravity="center"
+        android:id="@+id/mainPercentText"
+        android:foregroundGravity="center" />
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
@@ -89,6 +107,7 @@
         android:background="?android:attr/windowBackground"
         android:layout_alignParentBottom="true"
         app:menu="@menu/navigation" />
+    
 
 
 </RelativeLayout>
