@@ -5,6 +5,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using AndroidX.Core.Widget;
 using counttime.Data;
 using counttime.Models;
 using Google.Android.Material.BottomNavigation;
@@ -107,6 +108,15 @@ namespace counttime
             progressBar1.Progress = (int)totProgress;
             var percentText = FindViewById<TextView>(Resource.Id.mainPercentText);
             percentText.Text = Math.Round(totProgress, 0) + "%";
+
+            var events = Database.GetHomeScreenEvents();
+            if (events != null && events.Count > 0)
+            {
+                rText.Text += System.Environment.NewLine + events.Count + " Events in range.";
+                
+                var eventList = FindViewById<ListView>(Resource.Id.MainEvents);
+                eventList.Adapter = new EventAdapter(this,events);
+            }
         }
 
         private void OnStartDateSet(object sender, DatePickerDialog.DateSetEventArgs e)

@@ -1,6 +1,8 @@
 ﻿using counttime.Models;
 using SQLite;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace counttime.Data
 {
@@ -14,7 +16,13 @@ namespace counttime.Data
             database.CreateTable<Profile>();
             database.CreateTable<Event>();
             database.CreateTable<Diary>();
-
+        }
+        public List<Event> GetHomeScreenEvents()
+        {
+            var results = database.Table<Event>().ToList();
+            return results.Where(e => e.IsShowOnHomeScreen == true
+             && DateTime.Now >= e.EventStartDate
+             && e.EventEndDate >= DateTime.Now).ToList();
         }
         public List<Profile> GetProfiles()
         {

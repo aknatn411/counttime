@@ -46,11 +46,24 @@
         android:id="@+id/EventEndDate"
         android:inputType="none"
         android:editable="false"/>
+    <TextView
+        android:text="Show on Home Screen:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/EventEndDate"
+        android:id="@+id/EventShowOnHomeScreenText" />
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/EventShowOnHomeScreenText"
+        android:id="@+id/EventIsshowOnHomeScreen" />
+
     <Button
         android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/EventEndDate"
+        android:layout_below="@id/EventIsshowOnHomeScreen"
         android:id="@+id/SaveEvent" />
     <Button
         android:text="Delete"

@@ -24,5 +24,6 @@ namespace counttime.Models
         public string Details { get; set; }
         public bool IsEditable { get; set; }
         public bool IsSystem { get; set; }
+        public bool IsShowOnHomeScreen { get; set; }
     }
 }

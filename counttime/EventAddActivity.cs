@@ -97,7 +97,7 @@ namespace counttime
                 endDateDialog.Show();
             };
 
-            if (ctEventEdit != null && ctEventEdit.Id > 1)
+            if (ctEventEdit != null && ctEventEdit.Id > 0)
             {
                 startDateDialog.UpdateDate(ctEventEdit.EventStartDate);
                 endDateDialog.UpdateDate(ctEventEdit.EventEndDate);
@@ -105,7 +105,8 @@ namespace counttime
                 txtEndDate.Text = ctEventEdit.EventEndDate.ToShortDateString();
                 EditText eventeventName = FindViewById<EditText>(Resource.Id.EventName);
                 eventeventName.Text = ctEventEdit.Name;
-
+                Switch isShowOnHomeScreen = FindViewById<Switch>(Resource.Id.EventIsshowOnHomeScreen);
+                isShowOnHomeScreen.Checked = ctEventEdit.IsShowOnHomeScreen;
             }
             else
             {
@@ -144,7 +145,8 @@ namespace counttime
                 EventType = "Default",
                 IsEditable = true,
                 IsSystem = false,
-            };
+                IsShowOnHomeScreen = FindViewById<Switch>(Resource.Id.EventIsshowOnHomeScreen).Checked
+        };
             if(ctEventEdit != null && ctEventEdit.Id > 0)
             {
                 newEvent.Id = ctEventEdit.Id;
