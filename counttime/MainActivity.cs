@@ -39,71 +39,23 @@ namespace counttime
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
 
-            var UserProfile = getProfile();
-
-            textMessage = FindViewById<TextView>(Resource.Id.message);
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
             navigation.SetOnNavigationItemSelectedListener(this);
 
-            DatePickerDialog startDateDialog = new DatePickerDialog(this, OnStartDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
-            DatePickerDialog releaseDateDialog = new DatePickerDialog(this, OnReleaseDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            var UserProfile = getProfile();
 
-            Button calculate = FindViewById<Button>(Resource.Id.calculate);
-            calculate.Click += (sender, e) => { OnCalculateClick(UserProfile, Database); };
-            EditText txtStartDate = FindViewById<EditText>(Resource.Id.startDate);
-            txtStartDate.Touch += (sender, e) =>
+            Button editProfile = FindViewById<Button>(Resource.Id.EditProfileButton);
+            editProfile.Touch += (sender, e) =>
             {
-                startDateDialog.Show();
+                Intent intent1 = new Intent(this, typeof(ProfileEditActivity));
+                StartActivity(intent1);
             };
-            EditText txtReleaseDate = FindViewById<EditText>(Resource.Id.releaseDate);
-            txtReleaseDate.Touch += (sender, e) =>
-            {
-                releaseDateDialog.Show();
-            };
-            var UserNameField = FindViewById<TextView>(Resource.Id.UserName);
-            if (UserNameField != null)
-            {
-                UserNameField.Text = UserProfile.UserName;
-            }
-            var sDatePref = UserProfile.StartDate ??= DateTime.Now;
-            if (sDatePref != null)
-            {
-                startDateDialog.DatePicker.DateTime = sDatePref;
-                EditText sDate = (EditText)FindViewById(Resource.Id.startDate);
-                if (sDate != null)
-                {
-                    sDate.Text = sDatePref.ToShortDateString();
-                    var rText2 = FindViewById<TextView>(Resource.Id.remainingdays);
-                    if (rText2 != null)
-                    {
-                        rText2.Text = "You've been down " + Math.Round((System.DateTime.Now - DateTime.Parse(sDate.Text)).TotalDays, 0).ToString("n0") + " days.";
-                    }
-
-                }
-            }
-            var rDatePref = UserProfile.EndDate ??= DateTime.Now;
-            if (rDatePref != null)
-            {
-                releaseDateDialog.DatePicker.DateTime = rDatePref;
-                EditText rDate = (EditText)FindViewById(Resource.Id.releaseDate);
-                if (rDate != null)
-                {
-                    rDate.Text = rDatePref.ToShortDateString();
-                    var rText3 = FindViewById<TextView>(Resource.Id.remainingdays);
-                    if (rText3 != null)
-                    {
-
-                    }
-                    rText3.Text += System.Environment.NewLine + Math.Round((DateTime.Parse(rDate.Text) - System.DateTime.Now).TotalDays, 0).ToString("n0") + " days to release.";
-                }
-            }
 
             ProgressBar progressBar1 = FindViewById<ProgressBar>(Resource.Id.progressBar1);
-            var totDays = (rDatePref - sDatePref).TotalDays;
-            var comDays = (DateTime.Now - sDatePref).TotalDays;
+            var totDays = (UserProfile.EndDate.Value - UserProfile.StartDate.Value).TotalDays;
+            var comDays = (DateTime.Now - UserProfile.StartDate.Value).TotalDays;
             var totProgress = (comDays / totDays) * 100;
-            var rText = FindViewById<TextView>(Resource.Id.remainingdays);
-            rText.Text += System.Environment.NewLine + Math.Round(totProgress, 2) + "% of the way there, keep it up!";
+            
 
             progressBar1.Progress = (int)totProgress;
             var percentText = FindViewById<TextView>(Resource.Id.mainPercentText);
@@ -112,25 +64,16 @@ namespace counttime
             var events = Database.GetHomeScreenEvents();
             if (events != null && events.Count > 0)
             {
-                rText.Text += System.Environment.NewLine + events.Count + " Events in range.";
+                //rText.Text += System.Environment.NewLine + events.Count + " Events in range.";
                 
                 var eventList = FindViewById<ListView>(Resource.Id.MainEvents);
                 eventList.Adapter = new EventAdapter(this,events);
             }
         }
 
-        private void OnStartDateSet(object sender, DatePickerDialog.DateSetEventArgs e)
+        private void EditProfile_Touch(object sender, View.TouchEventArgs e)
         {
-            EditText txtPrefDate = FindViewById<EditText>(Resource.Id.startDate);
-            txtPrefDate.Text = e.Date.ToShortDateString();
-            return;
-        }
-
-        private void OnReleaseDateSet(object sender, DatePickerDialog.DateSetEventArgs e)
-        {
-            EditText txtPrefDate = FindViewById<EditText>(Resource.Id.releaseDate);
-            txtPrefDate.Text = e.Date.ToShortDateString();
-            return;
+            throw new NotImplementedException();
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -159,49 +102,7 @@ namespace counttime
             }
             return false;
         }
-        public bool OnCalculateClick(Profile UserProfile, CountTimeDatabase Database)
-        {
-            var name = FindViewById<TextView>(Resource.Id.UserName);
-            if (name != null)
-            {
-                UserProfile.UserName = name.Text;
-            }
-
-            EditText rDate = (EditText)FindViewById(Resource.Id.releaseDate);
-            EditText sDate = (EditText)FindViewById(Resource.Id.startDate);
-            if (sDate != null)
-            {
-                UserProfile.StartDate = DateTime.Parse(sDate.Text);
-                var rText4 = FindViewById<TextView>(Resource.Id.remainingdays);
-                if (rText4 != null)
-                {
-                    rText4.Text = "You've been down " + Math.Round((System.DateTime.Now - DateTime.Parse(sDate.Text)).TotalDays, 0).ToString("n0") + " days.";
-                }
-            }
-
-            if (rDate != null)
-            {
-                UserProfile.EndDate = DateTime.Parse(rDate.Text);
-                FindViewById<TextView>(Resource.Id.remainingdays).Text += System.Environment.NewLine + Math.Round((DateTime.Parse(rDate.Text) - System.DateTime.Now).TotalDays, 0).ToString("n0") + " days to release.";
-
-            }
-
-            _ = Database.SaveProfile(UserProfile);
-            Android.Widget.Toast.MakeText(this, "Profile Saved", Android.Widget.ToastLength.Long).Show();
-
-            ProgressBar progressBar1 = FindViewById<ProgressBar>(Resource.Id.progressBar1);
-
-            var totDays = (DateTime.Parse(rDate.Text) - DateTime.Parse(sDate.Text)).TotalDays;
-            var comDays = (DateTime.Now - (DateTime.Parse(sDate.Text))).TotalDays;
-            var totProgress = (comDays / totDays) * 100;
-            var rText = FindViewById<TextView>(Resource.Id.remainingdays);
-            rText.Text += System.Environment.NewLine + Math.Round(totProgress, 2) + "% of the way there, keep it up!";
-            var calc = (int)((comDays / totDays) * 100);
-            progressBar1.Progress = calc;
-            var percentText = FindViewById<TextView>(Resource.Id.mainPercentText);
-            percentText.Text = Math.Round(totProgress, 0) + "%";
-            return true;
-        }
+        
         public Profile getProfile()
         {
             var dbResult = Database.GetProfiles();

@@ -8,77 +8,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="User Name:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView1" />
-
-
-    <EditText
-        android:inputType="text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView1"
-        android:id="@+id/UserName" />
-
-
-
-    <TextView
-        android:text="Start Date:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/UserName"
-        android:id="@+id/startDateText" />
-    <EditText
-        android:editable="false"
-        android:inputType="none"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/startDateText"
-        android:id="@+id/startDate" />
-
-    <TextView
-        android:text="Release Date:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/startDate"
-        android:id="@+id/textView2" />
-
-
-
-    <EditText
-        android:editable="false"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textView2"
-        android:id="@+id/releaseDate"
-        android:inputType="none" />
-
     <Button
-        android:text="Save"
+        android:foregroundGravity="right"
+        android:gravity="right"
+        android:text="Profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/releaseDate"
-        android:id="@+id/calculate"/>
-    <TextView
-        android:text="Loading Results"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/calculate"
-        android:id="@+id/remainingdays" />
+        android:id="@+id/EditProfileButton" />
 
 
     <ProgressBar
-        android:layout_below="@id/remainingdays"
         android:id="@+id/progressBar1"
+        android:layout_below="@id/EditProfileButton"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
         android:indeterminate="false"
         android:max="100"
         android:progress="50"
@@ -87,9 +31,9 @@
         android:secondaryProgress="100" />
     <TextView
         android:id="@+id/mainPercentText"
-        android:layout_below="@id/remainingdays"
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+        android:layout_below="@id/EditProfileButton"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
         android:gravity="center"
         android:text="25%"
         android:layout_centerInParent="true"
