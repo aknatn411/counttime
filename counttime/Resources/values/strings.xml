@@ -4,4 +4,11 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_events">Events</string>
 	<string name="title_diary">Diary</string>
+	<string name="event_type_prompt">Choose an Event Type</string>
+	<string-array name="event_type_array">
+		<item>Single</item>
+		<item>Duration</item>
+		<item>Milestone</item>
+		<item>Anniversary</item>
+	</string-array>
 </resources>

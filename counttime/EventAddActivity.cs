@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
@@ -9,10 +8,8 @@ using counttime.Data;
 using counttime.Models;
 using Google.Android.Material.BottomNavigation;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace counttime
 {
@@ -21,6 +18,7 @@ namespace counttime
     {
         static CountTimeDatabase database;
         private Event ctEventEdit;
+        public string selectedEventType;
 
         // Create the database connection as a singleton.
         public static CountTimeDatabase Database
@@ -67,18 +65,28 @@ namespace counttime
             navigation.SetOnNavigationItemSelectedListener(this);
 
             this.UserProfile = Database.GetProfiles().FirstOrDefault();
-            if(Intent.GetIntExtra("EventId", 0) != 0)
+            if (Intent.GetIntExtra("EventId", 0) != 0)
             {
                 ctEventEdit = database.GetEvent(Intent.GetIntExtra("EventId", 0));
             }
 
+            Spinner spinner = FindViewById<Spinner>(Resource.Id.EventTypeSpinner);
+
+
+            spinner.ItemSelected += new EventHandler<AdapterView.ItemSelectedEventArgs>(spinner_ItemSelected);
+            var adapter = ArrayAdapter.CreateFromResource(
+                    this, Resource.Array.event_type_array, Android.Resource.Layout.SimpleSpinnerItem);
+
+            adapter.SetDropDownViewResource(Android.Resource.Layout.SimpleSpinnerDropDownItem);
+            spinner.Adapter = adapter;
+
             DatePickerDialog startDateDialog = new DatePickerDialog(this, OnStartDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
             DatePickerDialog endDateDialog = new DatePickerDialog(this, OnEndDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
-            
+
 
             EditText txtStartDate = FindViewById<EditText>(Resource.Id.EventStartDate);
-            if(txtStartDate.Text == String.Empty)
+            if (txtStartDate.Text == String.Empty)
             {
                 txtStartDate.Text = DateTime.Now.ToShortDateString();
             }
@@ -107,6 +115,26 @@ namespace counttime
                 eventeventName.Text = ctEventEdit.Name;
                 Switch isShowOnHomeScreen = FindViewById<Switch>(Resource.Id.EventIsshowOnHomeScreen);
                 isShowOnHomeScreen.Checked = ctEventEdit.IsShowOnHomeScreen;
+                selectedEventType = ctEventEdit.EventType;
+                switch (this.selectedEventType)
+                {
+                    case "Single":
+                        spinner.SetSelection(0);
+                        break;
+                    case "Duration":
+                        spinner.SetSelection(1);
+                        break;
+                    case "Milestone":
+                        spinner.SetSelection(2);
+                        break;
+                    case "Anniversary":
+                        spinner.SetSelection(3);
+                        break;
+                    default:
+                        spinner.SetSelection(0);
+                        break;
+                }
+
             }
             else
             {
@@ -122,6 +150,12 @@ namespace counttime
             deleteEvent.Click += (sender, e) => { OnDeleteEventTouch(); };
         }
 
+        private void spinner_ItemSelected(object sender, AdapterView.ItemSelectedEventArgs e)
+        {
+            Spinner spinner = (Spinner)sender;
+            selectedEventType = (string)spinner.GetItemAtPosition(e.Position);
+        }
+
         private void OnDeleteEventTouch()
         {
             if (ctEventEdit != null && ctEventEdit.Id > 0)
@@ -131,7 +165,7 @@ namespace counttime
                 Intent intent3 = new Intent(this, typeof(EventListActivity));
                 StartActivity(intent3);
             }
-            
+
         }
 
         private void OnSaveEventTouch()
@@ -142,12 +176,12 @@ namespace counttime
                 EventStartDate = DateTime.Parse(FindViewById<EditText>(Resource.Id.EventStartDate).Text),
                 EventEndDate = DateTime.Parse(FindViewById<EditText>(Resource.Id.EventEndDate).Text),
                 ProfileId = UserProfile.Id,
-                EventType = "Default",
+                EventType = selectedEventType,
                 IsEditable = true,
                 IsSystem = false,
                 IsShowOnHomeScreen = FindViewById<Switch>(Resource.Id.EventIsshowOnHomeScreen).Checked
-        };
-            if(ctEventEdit != null && ctEventEdit.Id > 0)
+            };
+            if (ctEventEdit != null && ctEventEdit.Id > 0)
             {
                 newEvent.Id = ctEventEdit.Id;
             }

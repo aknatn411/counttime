@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout 
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -19,11 +19,23 @@
         android:id="@+id/EventName"
         android:inputType="text" />
     <TextView
-        android:text="Start Date:"
+        android:text="Event Type:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/EventName"
+        android:id="@+id/EventTypeText" />
+    <Spinner
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/EventTypeText"
+        android:id="@+id/EventTypeSpinner" />
+    <TextView
+        android:text="Start Date:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/EventTypeSpinner"
         android:id="@+id/EventStartDateText" />
     <EditText
         android:layout_width="match_parent"
