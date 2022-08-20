@@ -7,18 +7,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
+        android:fontFamily="@font/turislight"
         android:text="Subject:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/DiarySubjectText" />
     <EditText
+        android:fontFamily="@font/turislight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/DiarySubjectText"
         android:id="@+id/DiarySubject"
         android:inputType="text" />
     <TextView
+        android:fontFamily="@font/turislight"
         android:text="Details:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
@@ -26,6 +29,7 @@
         android:layout_below="@id/DiarySubject"
         android:id="@+id/DiaryDetailText" />
     <EditText
+        android:fontFamily="@font/turislight"
         android:height="120dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,6 +39,7 @@
         android:gravity="top"
         android:foregroundGravity="top" />
     <TextView
+        android:fontFamily="@font/turislight"
         android:text="Created Date:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
@@ -42,6 +47,7 @@
         android:layout_below="@id/DiaryDetail"
         android:id="@+id/CreatedDateText" />
     <EditText
+        android:fontFamily="@font/turislight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/CreatedDateText"
@@ -49,12 +55,14 @@
         android:inputType="none"
         android:editable="false"/>
     <Button
+        android:fontFamily="@font/turislight"
         android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/DiaryCreatedDate"
         android:id="@+id/SaveDiary" />
     <Button
+        android:fontFamily="@font/turislight"
         android:text="Delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -154,6 +154,18 @@ namespace counttime
         {
             Spinner spinner = (Spinner)sender;
             selectedEventType = (string)spinner.GetItemAtPosition(e.Position);
+            EditText EndDate = FindViewById<EditText>(Resource.Id.EventEndDate);
+            TextView EndDateText = FindViewById<TextView>(Resource.Id.EventEndDateText);
+            if (selectedEventType != "Duration")
+            {
+                EndDate.Visibility = ViewStates.Gone;
+                EndDateText.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                EndDate.Visibility = ViewStates.Visible;
+                EndDateText.Visibility= ViewStates.Visible;
+            }
         }
 
         private void OnDeleteEventTouch()
@@ -174,7 +186,7 @@ namespace counttime
             {
                 Name = FindViewById<EditText>(Resource.Id.EventName).Text,
                 EventStartDate = DateTime.Parse(FindViewById<EditText>(Resource.Id.EventStartDate).Text),
-                EventEndDate = DateTime.Parse(FindViewById<EditText>(Resource.Id.EventEndDate).Text),
+                EventEndDate = (selectedEventType == "Duration") ? DateTime.Parse(FindViewById<EditText>(Resource.Id.EventEndDate).Text) : DateTime.Parse(FindViewById<EditText>(Resource.Id.EventStartDate).Text),
                 ProfileId = UserProfile.Id,
                 EventType = selectedEventType,
                 IsEditable = true,

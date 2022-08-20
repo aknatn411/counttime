@@ -7,18 +7,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
+        android:fontFamily="@font/turislight"
         android:text="Event Name:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/EventNameText" />
     <EditText
+        android:fontFamily="@font/turislight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/EventNameText"
         android:id="@+id/EventName"
         android:inputType="text" />
     <TextView
+        android:fontFamily="@font/turislight"
         android:text="Event Type:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
@@ -26,11 +29,13 @@
         android:layout_below="@id/EventName"
         android:id="@+id/EventTypeText" />
     <Spinner
+        android:fontFamily="@font/turislight"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/EventTypeText"
         android:id="@+id/EventTypeSpinner" />
     <TextView
+        android:fontFamily="@font/turislight"
         android:text="Start Date:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
@@ -38,6 +43,7 @@
         android:layout_below="@id/EventTypeSpinner"
         android:id="@+id/EventStartDateText" />
     <EditText
+        android:fontFamily="@font/turislight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/EventStartDateText"
@@ -45,6 +51,7 @@
         android:inputType="none"
         android:editable="false"/>
     <TextView
+        android:fontFamily="@font/turislight"
         android:text="End Date:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
@@ -52,6 +59,7 @@
         android:layout_below="@id/EventStartDate"
         android:id="@+id/EventEndDateText" />
     <EditText
+        android:fontFamily="@font/turislight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/EventEndDateText"
@@ -59,6 +67,7 @@
         android:inputType="none"
         android:editable="false"/>
     <TextView
+        android:fontFamily="@font/turislight"
         android:text="Show on Home Screen:"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
@@ -72,12 +81,14 @@
         android:id="@+id/EventIsshowOnHomeScreen" />
 
     <Button
+        android:fontFamily="@font/turislight"
         android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/EventIsshowOnHomeScreen"
         android:id="@+id/SaveEvent" />
     <Button
+        android:fontFamily="@font/turislight"
         android:text="Delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

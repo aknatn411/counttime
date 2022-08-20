@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -18,7 +19,6 @@ namespace counttime
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = true)]
     public class MainActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
     {
-        TextView textMessage;
         static CountTimeDatabase database;
 
         // Create the database connection as a singleton.
@@ -28,7 +28,7 @@ namespace counttime
             {
                 if (database == null)
                 {
-                    database = new CountTimeDatabase(Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "CountTimeDatabase.db3"));
+                    database = new CountTimeDatabase(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData), "CountTimeDatabase.db3"));
                 }
                 return database;
             }
@@ -38,6 +38,7 @@ namespace counttime
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.activity_main);
+            
 
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
             navigation.SetOnNavigationItemSelectedListener(this);
@@ -59,7 +60,11 @@ namespace counttime
 
             progressBar1.Progress = (int)totProgress;
             var percentText = FindViewById<TextView>(Resource.Id.mainPercentText);
+            var daysRemaining = FindViewById<TextView>(Resource.Id.MainDaysRemaining);
+            var daysRemainingCalc = Math.Round((UserProfile.EndDate.Value - DateTime.Now).TotalDays, 0);
+            daysRemaining.Text = daysRemainingCalc.ToString()  + " days until release";
             percentText.Text = Math.Round(totProgress, 0) + "%";
+            //percentText.Typeface = Typeface.CreateFromAsset(Assets, "Turis-Light.otf");
 
             var events = Database.GetHomeScreenEvents();
             if (events != null && events.Count > 0)

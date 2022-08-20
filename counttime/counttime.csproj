@@ -89,11 +89,13 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="Assets\AppIcon.appiconset\Contents.json" />
+    <AndroidAsset Include="Assets\Turis-Light.otf" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml">
       <SubType>Designer</SubType>
     </None>
     <None Include="Assets\AboutAssets.txt" />
+    <AndroidResource Include="Resources\font\TurisLight.otf" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_main.xml">
@@ -201,6 +203,9 @@
     <AndroidResource Include="Resources\layout\activity_Profile.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\font\turislight.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
