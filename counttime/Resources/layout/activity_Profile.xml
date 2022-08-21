@@ -30,7 +30,7 @@
 
     <TextView
         android:fontFamily="@font/turislight"
-        android:text="Start Date:"
+        android:text="Start Date (Date of arrest):"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,18 +43,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/startDateText"
-        android:id="@+id/startDate" />
+        android:id="@+id/startDate"/>
 
     <TextView
         android:fontFamily="@font/turislight"
-        android:text="Release Date:"
+        android:text="Release Date (Date with good time):"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/startDate"
-        android:id="@+id/textView2" />
-
-
+        android:id="@+id/textView2"
+       />
 
     <EditText
         android:fontFamily="@font/turislight"
@@ -65,13 +64,40 @@
         android:id="@+id/releaseDate"
         android:inputType="none" />
 
+    <TextView
+        android:fontFamily="@font/turislight"
+        android:text="Sentence Date:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/releaseDate"
+        android:id="@+id/sentenceDateText"
+       />
+    <Switch
+        android:layout_below="@id/releaseDate"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:id="@+id/ProfileIgnoreSentenceDate" />
+
+
+    <EditText
+        android:fontFamily="@font/turislight"
+        android:editable="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sentenceDateText"
+        android:id="@+id/sentenceDate"
+        android:inputType="none" />
+
     <com.google.android.material.button.MaterialButton
         style="@android:style/Widget.Material.Button.Borderless"
         android:fontFamily="@font/turislight"
         android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/releaseDate"
+        android:layout_below="@id/sentenceDate"
         android:id="@+id/calculate"
         app:backgroundTint="?android:attr/colorBackground"
         app:rippleColor="#999"

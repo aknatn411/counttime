@@ -69,6 +69,7 @@ namespace counttime
 
             DatePickerDialog startDateDialog = new DatePickerDialog(this, OnStartDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
             DatePickerDialog releaseDateDialog = new DatePickerDialog(this, OnReleaseDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+            DatePickerDialog sentenceDateDialog = new DatePickerDialog(this, OnSentenceDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
             Button calculate = FindViewById<Button>(Resource.Id.calculate);
             calculate.Click += (sender, e) => { OnCalculateClick(UserProfile, Database); };
@@ -81,6 +82,11 @@ namespace counttime
             txtReleaseDate.Touch += (sender, e) =>
             {
                 releaseDateDialog.Show();
+            };
+            EditText txtSentenceDate = FindViewById<EditText>(Resource.Id.sentenceDate);
+            txtSentenceDate.Touch += (sender, e) =>
+            {
+                sentenceDateDialog.Show();
             };
             var UserNameField = FindViewById<TextView>(Resource.Id.UserName);
             if (UserNameField != null)
@@ -119,6 +125,15 @@ namespace counttime
                     rText3.Text += System.Environment.NewLine + Math.Round((DateTime.Parse(rDate.Text) - System.DateTime.Now).TotalDays, 0).ToString("n0") + " days to release.";
                 }
             }
+            var sentenceDatePref = UserProfile.SentenceDate ??= DateTime.Now;
+            if (sentenceDatePref != null)
+            {
+                sentenceDateDialog.DatePicker.DateTime = sentenceDatePref;
+                EditText sentenceDate = (EditText)FindViewById(Resource.Id.sentenceDate);
+                sentenceDate.Text = sentenceDatePref.ToShortDateString();
+            }
+            var ignoreSentenceDate = FindViewById<Switch>(Resource.Id.ProfileIgnoreSentenceDate);
+            ignoreSentenceDate.CheckedChange += IgnoreSentenceDate_CheckedChange;
 
             var totDays = (UserProfile.EndDate.Value - UserProfile.StartDate.Value).TotalDays;
             var comDays = (DateTime.Now - UserProfile.StartDate.Value).TotalDays;
@@ -126,6 +141,22 @@ namespace counttime
             var rText = FindViewById<TextView>(Resource.Id.remainingdays);
             rText.Text += System.Environment.NewLine + Math.Round(totProgress, 2) + "% of the way there, keep it up!";
         }
+
+        private void IgnoreSentenceDate_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
+        {
+            var ignore = sender as Switch;
+            EditText sentenceDate = (EditText)FindViewById(Resource.Id.sentenceDate);
+            if (ignore.Checked)
+            {
+                sentenceDate.Enabled = true;
+            }
+            else
+            {
+                sentenceDate.Enabled = false;
+            }
+        }
+
+
         private void OnStartDateSet(object sender, DatePickerDialog.DateSetEventArgs e)
         {
             EditText txtPrefDate = FindViewById<EditText>(Resource.Id.startDate);
@@ -139,6 +170,12 @@ namespace counttime
             txtPrefDate.Text = e.Date.ToShortDateString();
             return;
         }
+        private void OnSentenceDateSet(object sender, DatePickerDialog.DateSetEventArgs e)
+        {
+            EditText txtPrefDate = FindViewById<EditText>(Resource.Id.sentenceDate);
+            txtPrefDate.Text = e.Date.ToShortDateString();
+            return;
+        }
         public bool OnCalculateClick(Profile UserProfile, CountTimeDatabase Database)
         {
             var name = FindViewById<TextView>(Resource.Id.UserName);
@@ -149,6 +186,11 @@ namespace counttime
 
             EditText rDate = (EditText)FindViewById(Resource.Id.releaseDate);
             EditText sDate = (EditText)FindViewById(Resource.Id.startDate);
+            EditText sentenceDate = (EditText)FindViewById(Resource.Id.sentenceDate);
+            if (sentenceDate != null)
+            {
+                UserProfile.SentenceDate = DateTime.Parse(sentenceDate.Text);
+            }
             if (sDate != null)
             {
                 UserProfile.StartDate = DateTime.Parse(sDate.Text);
