@@ -37,8 +37,8 @@ namespace counttime
         {
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            SupportActionBar.Hide();
             SetContentView(Resource.Layout.activity_main);
-            
 
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
             navigation.SetOnNavigationItemSelectedListener(this);
@@ -56,7 +56,22 @@ namespace counttime
             var totDays = (UserProfile.EndDate.Value - UserProfile.StartDate.Value).TotalDays;
             var comDays = (DateTime.Now - UserProfile.StartDate.Value).TotalDays;
             var totProgress = (comDays / totDays) * 100;
-            
+
+            var futureMilestoneText = FindViewById<TextView>(Resource.Id.MainFutureMilestone);
+            var pastMilestoneText = FindViewById<TextView>(Resource.Id.MainPastMilestone);
+            var futureMilestone = Database.GetNearestFutureMilestone();
+            var pastMilestone = Database.GetNearestPastMilestone();
+
+            if (futureMilestone != null)
+            {
+                futureMilestoneText.Text = futureMilestone.Name + " is coming up in " + Math.Round((futureMilestone.EventStartDate - DateTime.Now).TotalDays, 0) + " days";
+            }
+
+            if (pastMilestone != null)
+            {
+                pastMilestoneText.Text = Math.Round((DateTime.Now -  pastMilestone.EventStartDate ).TotalDays, 0) + " days since " + pastMilestone.Name;
+            }
+
 
             progressBar1.Progress = (int)totProgress;
             var percentText = FindViewById<TextView>(Resource.Id.mainPercentText);

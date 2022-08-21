@@ -5,7 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingTop="30dp">
     <TextView
         android:fontFamily="@font/turislight"
         android:text="Event Name:"
@@ -80,21 +83,31 @@
         android:layout_below="@id/EventShowOnHomeScreenText"
         android:id="@+id/EventIsshowOnHomeScreen" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        style="@android:style/Widget.Material.Button.Borderless"
         android:fontFamily="@font/turislight"
         android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/EventIsshowOnHomeScreen"
-        android:id="@+id/SaveEvent" />
-    <Button
+        android:id="@+id/SaveEvent"
+        app:backgroundTint="?android:attr/colorBackground"
+        app:rippleColor="#999"
+        android:textColor="#666"
+        />
+    <com.google.android.material.button.MaterialButton
+        style="@android:style/Widget.Material.Button.Borderless"
         android:fontFamily="@font/turislight"
         android:text="Delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/SaveEvent"
+        android:layout_below="@id/EventIsshowOnHomeScreen"
+        android:layout_alignParentRight="true"
         android:id="@+id/DeleteEvent"
-        app:backgroundTint="@color/error_color_material_dark" />
+        app:backgroundTint="?android:attr/colorBackground"
+        app:rippleColor="#999"
+        android:textColor="#666"
+        />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation4"

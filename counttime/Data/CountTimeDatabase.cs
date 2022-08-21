@@ -17,6 +17,16 @@ namespace counttime.Data
             database.CreateTable<Event>();
             database.CreateTable<Diary>();
         }
+        public Event GetNearestFutureMilestone()
+        {
+            var results = database.Table<Event>().ToList();
+            return results.Where(e => DateTime.Now <= e.EventStartDate && e.EventType == "Milestone").OrderBy(e => e.EventStartDate).FirstOrDefault();
+        }
+        public Event GetNearestPastMilestone()
+        {
+            var results = database.Table<Event>().ToList();
+            return results.Where(e => DateTime.Now >= e.EventStartDate && e.EventType == "Milestone").OrderByDescending(e => e.EventStartDate).FirstOrDefault();
+        }
         public List<Event> GetHomeScreenEvents()
         {
             var results = database.Table<Event>().ToList();

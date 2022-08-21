@@ -5,7 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingTop="30dp">
     <TextView
         android:fontFamily="@font/turislight"
         android:text="User Name:"
@@ -62,13 +65,17 @@
         android:id="@+id/releaseDate"
         android:inputType="none" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
+        style="@android:style/Widget.Material.Button.Borderless"
         android:fontFamily="@font/turislight"
         android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/releaseDate"
-        android:id="@+id/calculate"/>
+        android:id="@+id/calculate"
+        app:backgroundTint="?android:attr/colorBackground"
+        app:rippleColor="#999"
+        android:textColor="#666"/>
 
     <TextView
         android:fontFamily="@font/turislight"
@@ -77,7 +84,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/calculate"
-        android:id="@+id/remainingdays" />
+        android:id="@+id/remainingdays"
+        />
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

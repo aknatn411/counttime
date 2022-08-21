@@ -60,6 +60,7 @@ namespace counttime
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            SupportActionBar.Hide();
             SetContentView(Resource.Layout.activity_EventList);
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation3);
             navigation.SetOnNavigationItemSelectedListener(this);

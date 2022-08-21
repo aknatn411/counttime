@@ -60,6 +60,7 @@ namespace counttime
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
+            SupportActionBar.Hide();
             SetContentView(Resource.Layout.activity_EventAdd);
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation4);
             navigation.SetOnNavigationItemSelectedListener(this);
@@ -155,16 +156,29 @@ namespace counttime
             Spinner spinner = (Spinner)sender;
             selectedEventType = (string)spinner.GetItemAtPosition(e.Position);
             EditText EndDate = FindViewById<EditText>(Resource.Id.EventEndDate);
+            Switch showOnHome = FindViewById<Switch>(Resource.Id.EventIsshowOnHomeScreen);
+            TextView showOnHomeText = FindViewById<TextView>(Resource.Id.EventShowOnHomeScreenText);
             TextView EndDateText = FindViewById<TextView>(Resource.Id.EventEndDateText);
+            if (selectedEventType == "Milestone")
+            {
+                showOnHomeText.Visibility = ViewStates.Gone;
+                showOnHome.Visibility = ViewStates.Gone;
+            }
+            else
+            {
+                showOnHome.Visibility = ViewStates.Visible;
+                showOnHome.Visibility = ViewStates.Visible;
+            }
             if (selectedEventType != "Duration")
             {
+
                 EndDate.Visibility = ViewStates.Gone;
                 EndDateText.Visibility = ViewStates.Gone;
             }
             else
             {
                 EndDate.Visibility = ViewStates.Visible;
-                EndDateText.Visibility= ViewStates.Visible;
+                EndDateText.Visibility = ViewStates.Visible;
             }
         }
 
