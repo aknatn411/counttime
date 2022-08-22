@@ -16,7 +16,7 @@ using System.Linq;
 namespace counttime
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = false)]
-    public class DiaryListActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
+    public class LocationListActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
     {
         static CountTimeDatabase database;
 
@@ -33,7 +33,7 @@ namespace counttime
             }
         }
         public Profile UserProfile;
-        public List<Diary> DiaryList;
+        public List<Location> LocationList;
         public bool OnNavigationItemSelected(IMenuItem item)
         {
             switch (item.ItemId)
@@ -48,8 +48,8 @@ namespace counttime
                     //SetContentView(Resource.Layout.activity);
                     return true;
                 case Resource.Id.navigation_diary:
-                    //Intent intent = new Intent(this, typeof(DiaryListActivity));
-                    //StartActivity(intent);
+                    Intent intent3 = new Intent(this, typeof(DiaryListActivity));
+                    StartActivity(intent3);
                     //SetContentView(Resource.Layout.activity);
                     return true;
                 case Resource.Id.navigation_history:
@@ -67,46 +67,46 @@ namespace counttime
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SupportActionBar.Hide();
-            SetContentView(Resource.Layout.activity_DiaryList);
-            BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation5);
+            SetContentView(Resource.Layout.activity_LocationList);
+            BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigationLocationList);
             navigation.SetOnNavigationItemSelectedListener(this);
-            navigation.Menu.GetItem(2).SetChecked(true);
+            navigation.Menu.GetItem(0).SetChecked(true);
 
             this.UserProfile = Database.GetProfiles().FirstOrDefault();
-            ListView listView = FindViewById<ListView>(Resource.Id.DiaryListView);
-            MaterialButton addDiaryButton = FindViewById<MaterialButton>(Resource.Id.AddDiaryButton);
-            addDiaryButton.Click += (sender, e) =>
+            ListView listView = FindViewById<ListView>(Resource.Id.LocationListView);
+            MaterialButton addLocationButton = FindViewById<MaterialButton>(Resource.Id.AddLocationButton);
+            addLocationButton.Click += (sender, e) =>
             {
-                Intent intent = new Intent(this, typeof(DiaryAddActivity));
+                Intent intent = new Intent(this, typeof(LocationAddActivity));
                 StartActivity(intent);
             };
-            DiaryList = Database.GetDiarys();
-            DiaryList.OrderByDescending(e => e.CreatedDate);
-            var adapter = new DiaryAdapter(this, DiaryList);
+            LocationList = Database.GetLocations();
+            LocationList.OrderByDescending(e => e.ArrivalDate);
+            var adapter = new LocationAdapter(this, LocationList);
             listView.Adapter = adapter;
             listView.ItemClick += listViewItemClickHandler;
         }
 
         private void listViewItemClickHandler(object sender, AdapterView.ItemClickEventArgs e)
         {
-            var ctDiary = DiaryList.ElementAt(e.Position);
+            var ctLocation = LocationList.ElementAt(e.Position);
             
-            Intent intent = new Intent(this, typeof(DiaryAddActivity));
-            intent.PutExtra("DiaryId", ctDiary.Id);
+            Intent intent = new Intent(this, typeof(LocationAddActivity));
+            intent.PutExtra("LocationId", ctLocation.Id);
             StartActivity(intent);
         }
     }
 
-    public class DiaryAdapter : BaseAdapter<Diary>
+    public class LocationAdapter : BaseAdapter<Location>
     {
-        public List<Diary> sList;
+        public List<Location> sList;
         private Context sContext;
-        public DiaryAdapter(Context context, List<Diary> list)
+        public LocationAdapter(Context context, List<Location> list)
         {
             sList = list;
             sContext = context;
         }
-        public override Diary this[int position]
+        public override Location this[int position]
         {
             get
             {
@@ -131,10 +131,10 @@ namespace counttime
             {
                 if (row == null)
                 {
-                    row = LayoutInflater.From(sContext).Inflate(Resource.Layout.diary_expandableListItem, null, false);
+                    row = LayoutInflater.From(sContext).Inflate(Resource.Layout.location_expandableListItem, null, false);
                 }
-                TextView txtName = row.FindViewById<TextView>(Resource.Id.ListDiaryName);
-                txtName.Text = sList[position].Subject + " " + sList[position].CreatedDate.ToShortDateString();
+                TextView txtName = row.FindViewById<TextView>(Resource.Id.ListLocationName);
+                txtName.Text = sList[position].Name + " " + sList[position].ArrivalDate.ToShortDateString();
             }
             catch (Exception ex)
             {

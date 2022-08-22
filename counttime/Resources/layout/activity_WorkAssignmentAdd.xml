@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingTop="30dp">
+    <TextView
+        android:fontFamily="@font/turislight"
+        android:text="Name:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/WorkAssignmentNameText" />
+    <EditText
+        android:fontFamily="@font/turislight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/WorkAssignmentNameText"
+        android:id="@+id/WorkAssignmentName"
+        android:inputType="text" />
+    <TextView
+        android:fontFamily="@font/turislight"
+        android:text="Notes:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/WorkAssignmentName"
+        android:id="@+id/WorkAssignmentNotesText" />
+    <EditText
+        android:fontFamily="@font/turislight"
+        android:height="120dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/WorkAssignmentNotesText"
+        android:id="@+id/WorkAssignmentNotes"
+        android:inputType="textMultiLine"
+        android:gravity="top"
+        android:foregroundGravity="top" />
+    <TextView
+        android:fontFamily="@font/turislight"
+        android:text="WorkAssignment Date:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/WorkAssignmentNotes"
+        android:id="@+id/WorkAssignmentArrivalDateText" />
+    <EditText
+        android:fontFamily="@font/turislight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/WorkAssignmentArrivalDateText"
+        android:id="@+id/WorkAssignmentArrivalDate"
+        android:inputType="none"
+        android:editable="false"/>
+
+    <com.google.android.material.button.MaterialButton
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:fontFamily="@font/turislight"
+        android:text="Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/WorkAssignmentArrivalDate"
+        android:id="@+id/SaveWorkAssignment"
+        app:backgroundTint="?android:attr/colorBackground"
+        app:rippleColor="#999"
+        android:textColor="#666"/>
+    <com.google.android.material.button.MaterialButton
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:fontFamily="@font/turislight"
+        android:text="Delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/WorkAssignmentArrivalDate"
+        android:layout_alignParentRight="true"
+        android:id="@+id/DeleteWorkAssignment"
+        app:backgroundTint="?android:attr/colorBackground"
+        app:rippleColor="#999"
+        android:textColor="#666" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigationWorkAssignmentAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:background="?android:attr/windowBackground"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/navigation" />
+</RelativeLayout>

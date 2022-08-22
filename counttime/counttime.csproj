@@ -74,15 +74,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\CountTimeDatabase.cs" />
+    <Compile Include="Models\HistoryViewModel.cs" />
+    <Compile Include="WorkAssignmentAddActivity.cs" />
+    <Compile Include="LocationAddActivity.cs" />
+    <Compile Include="IncidentAddActivity.cs" />
     <Compile Include="DiaryAddActivity.cs" />
+    <Compile Include="WorkAssignmentListActivity.cs" />
+    <Compile Include="LocationListActivity.cs" />
+    <Compile Include="IncidentListActivity.cs" />
     <Compile Include="EventAddActivity.cs" />
     <Compile Include="DiaryListActivity.cs" />
     <Compile Include="EventListActivity.cs" />
+    <Compile Include="HistoryActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Models\Diary.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\EventEntry.cs" />
+    <Compile Include="Models\Incident.cs" />
+    <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Profile.cs" />
+    <Compile Include="Models\WorkAssignment.cs" />
     <Compile Include="ProfileEditActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -206,6 +217,71 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\font\turislight.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_History.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\incident_expandableListItem.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\location_expandableListItem.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\workAssignment_expandableListItem.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_IncidentList.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_LocationList.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_WorkAssignmentList.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_IncidentAdd.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_LocationAdd.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_WorkAssignmentAdd.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\history_expandableListItem.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

@@ -16,7 +16,7 @@ using System.Linq;
 namespace counttime
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = false)]
-    public class DiaryListActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
+    public class WorkAssignmentListActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
     {
         static CountTimeDatabase database;
 
@@ -33,7 +33,7 @@ namespace counttime
             }
         }
         public Profile UserProfile;
-        public List<Diary> DiaryList;
+        public List<WorkAssignment> WorkAssignmentList;
         public bool OnNavigationItemSelected(IMenuItem item)
         {
             switch (item.ItemId)
@@ -48,8 +48,8 @@ namespace counttime
                     //SetContentView(Resource.Layout.activity);
                     return true;
                 case Resource.Id.navigation_diary:
-                    //Intent intent = new Intent(this, typeof(DiaryListActivity));
-                    //StartActivity(intent);
+                    Intent intent3 = new Intent(this, typeof(DiaryListActivity));
+                    StartActivity(intent3);
                     //SetContentView(Resource.Layout.activity);
                     return true;
                 case Resource.Id.navigation_history:
@@ -67,46 +67,46 @@ namespace counttime
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SupportActionBar.Hide();
-            SetContentView(Resource.Layout.activity_DiaryList);
-            BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation5);
+            SetContentView(Resource.Layout.activity_WorkAssignmentList);
+            BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigationWorkAssignmentList);
             navigation.SetOnNavigationItemSelectedListener(this);
-            navigation.Menu.GetItem(2).SetChecked(true);
+            navigation.Menu.GetItem(0).SetChecked(true);
 
             this.UserProfile = Database.GetProfiles().FirstOrDefault();
-            ListView listView = FindViewById<ListView>(Resource.Id.DiaryListView);
-            MaterialButton addDiaryButton = FindViewById<MaterialButton>(Resource.Id.AddDiaryButton);
-            addDiaryButton.Click += (sender, e) =>
+            ListView listView = FindViewById<ListView>(Resource.Id.WorkAssignmentListView);
+            MaterialButton addWorkAssignmentButton = FindViewById<MaterialButton>(Resource.Id.AddWorkAssignmentButton);
+            addWorkAssignmentButton.Click += (sender, e) =>
             {
-                Intent intent = new Intent(this, typeof(DiaryAddActivity));
+                Intent intent = new Intent(this, typeof(WorkAssignmentAddActivity));
                 StartActivity(intent);
             };
-            DiaryList = Database.GetDiarys();
-            DiaryList.OrderByDescending(e => e.CreatedDate);
-            var adapter = new DiaryAdapter(this, DiaryList);
+            WorkAssignmentList = Database.GetWorkAssignments();
+            WorkAssignmentList.OrderByDescending(e => e.StartDate);
+            var adapter = new WorkAssignmentAdapter(this, WorkAssignmentList);
             listView.Adapter = adapter;
             listView.ItemClick += listViewItemClickHandler;
         }
 
         private void listViewItemClickHandler(object sender, AdapterView.ItemClickEventArgs e)
         {
-            var ctDiary = DiaryList.ElementAt(e.Position);
+            var ctWorkAssignment = WorkAssignmentList.ElementAt(e.Position);
             
-            Intent intent = new Intent(this, typeof(DiaryAddActivity));
-            intent.PutExtra("DiaryId", ctDiary.Id);
+            Intent intent = new Intent(this, typeof(WorkAssignmentAddActivity));
+            intent.PutExtra("WorkAssignmentId", ctWorkAssignment.Id);
             StartActivity(intent);
         }
     }
 
-    public class DiaryAdapter : BaseAdapter<Diary>
+    public class WorkAssignmentAdapter : BaseAdapter<WorkAssignment>
     {
-        public List<Diary> sList;
+        public List<WorkAssignment> sList;
         private Context sContext;
-        public DiaryAdapter(Context context, List<Diary> list)
+        public WorkAssignmentAdapter(Context context, List<WorkAssignment> list)
         {
             sList = list;
             sContext = context;
         }
-        public override Diary this[int position]
+        public override WorkAssignment this[int position]
         {
             get
             {
@@ -131,10 +131,10 @@ namespace counttime
             {
                 if (row == null)
                 {
-                    row = LayoutInflater.From(sContext).Inflate(Resource.Layout.diary_expandableListItem, null, false);
+                    row = LayoutInflater.From(sContext).Inflate(Resource.Layout.workAssignment_expandableListItem, null, false);
                 }
-                TextView txtName = row.FindViewById<TextView>(Resource.Id.ListDiaryName);
-                txtName.Text = sList[position].Subject + " " + sList[position].CreatedDate.ToShortDateString();
+                TextView txtName = row.FindViewById<TextView>(Resource.Id.ListWorkAssignmentName);
+                txtName.Text = sList[position].Name + " " + sList[position].StartDate.ToShortDateString();
             }
             catch (Exception ex)
             {

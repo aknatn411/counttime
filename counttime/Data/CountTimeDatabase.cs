@@ -16,6 +16,15 @@ namespace counttime.Data
             database.CreateTable<Profile>();
             database.CreateTable<Event>();
             database.CreateTable<Diary>();
+            database.CreateTable<Incident>();
+            database.CreateTable<Location>();
+            database.CreateTable<WorkAssignment>();
+        }
+        public List<HistoryViewModel> GetHistory()
+        {
+            var history = database.Query<HistoryViewModel>("SELECT Name as 'Name', ArrivalDate As 'Date' FROM Location Union select Name As 'Name', IncidentDate as 'Date' from Incident Union select Name as 'Name', StartDate as 'Date' from WorkAssignment Union select Name, EventStartDate as 'Date' from Event");
+            return history.ToList();
+
         }
         public Event GetNearestFutureMilestone()
         {
@@ -117,6 +126,87 @@ namespace counttime.Data
         {
             // Delete a note.
             return database.Delete(ctDiary);
+        }
+
+        public List<Incident> GetIncidents()
+        {
+            return database.Table<Incident>().ToList();
+        }
+        public Incident GetIncident(int id)
+        {
+            return database.Table<Incident>()
+                            .Where(i => i.Id == id)
+                            .FirstOrDefault();
+        }
+        public int SaveIncident(Incident ctIncident)
+        {
+            if (ctIncident.Id != 0)
+            {
+                return database.Update(ctIncident);
+            }
+            else
+            {
+                return database.Insert(ctIncident);
+            }
+        }
+        public int DeleteIncident(Incident ctIncident)
+        {
+            // Delete a note.
+            return database.Delete(ctIncident);
+        }
+
+        public List<Location> GetLocations()
+        {
+            return database.Table<Location>().ToList();
+        }
+        public Location GetLocation(int id)
+        {
+            return database.Table<Location>()
+                            .Where(i => i.Id == id)
+                            .FirstOrDefault();
+        }
+        public int SaveLocation(Location ctLocation)
+        {
+            if (ctLocation.Id != 0)
+            {
+                return database.Update(ctLocation);
+            }
+            else
+            {
+                return database.Insert(ctLocation);
+            }
+        }
+        public int DeleteLocation(Location ctLocation)
+        {
+            // Delete a note.
+            return database.Delete(ctLocation);
+        }
+
+        public List<WorkAssignment> GetWorkAssignments()
+        {
+            return database.Table<WorkAssignment>().ToList();
+        }
+        public WorkAssignment GetWorkAssignment(int id)
+        {
+            return database.Table<WorkAssignment>()
+                            .Where(i => i.Id == id)
+                            .FirstOrDefault();
+        }
+        public int SaveWorkAssignment(WorkAssignment ctWorkAssignment)
+        {
+            if (ctWorkAssignment.Id != 0)
+            {
+                return database.Update(ctWorkAssignment);
+            }
+            else
+            {
+                return database.Insert(ctWorkAssignment);
+            }
+        }
+        public int DeleteWorkAssignment(WorkAssignment ctWorkAssignment)
+        {
+            // Delete a note.
+            return database.Delete(ctWorkAssignment);
         }
     }
 }

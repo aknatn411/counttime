@@ -51,6 +51,11 @@ namespace counttime
                     StartActivity(intent3);
                     //SetContentView(Resource.Layout.activity);
                     return true;
+                case Resource.Id.navigation_history:
+                    Intent intent4 = new Intent(this, typeof(HistoryActivity));
+                    StartActivity(intent4);
+                    //SetContentView(Resource.Layout.activity);
+                    return true;
             }
             return false;
         }
@@ -64,6 +69,7 @@ namespace counttime
             SetContentView(Resource.Layout.activity_EventAdd);
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation4);
             navigation.SetOnNavigationItemSelectedListener(this);
+            navigation.Menu.GetItem(1).SetChecked(true);
 
             this.UserProfile = Database.GetProfiles().FirstOrDefault();
             if (Intent.GetIntExtra("EventId", 0) != 0)

@@ -113,6 +113,52 @@
         android:id="@+id/remainingdays"
         />
 
+    <View
+        android:id="@+id/ProfileButtonSeperator"
+        android:paddingTop="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/remainingdays"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <com.google.android.material.button.MaterialButton
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:fontFamily="@font/turislight"
+        android:text="Incident\nReports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ProfileButtonSeperator"
+        android:id="@+id/ManageIncidentsButton"
+        app:backgroundTint="?android:attr/colorBackground"
+        app:rippleColor="#999"
+        android:textColor="#666"/>
+
+    <com.google.android.material.button.MaterialButton
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:fontFamily="@font/turislight"
+        android:text="Work\nAssignments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ProfileButtonSeperator"
+        android:layout_toRightOf="@id/ManageIncidentsButton"
+        android:id="@+id/ManageWorkAssignmentsButton"
+        app:backgroundTint="?android:attr/colorBackground"
+        app:rippleColor="#999"
+        android:textColor="#666"/>
+
+    <com.google.android.material.button.MaterialButton
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:fontFamily="@font/turislight"
+        android:text="Locations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ProfileButtonSeperator"
+        android:layout_toRightOf="@id/ManageWorkAssignmentsButton"
+        android:id="@+id/ManageLocationsButton"
+        app:backgroundTint="?android:attr/colorBackground"
+        app:rippleColor="#999"
+        android:textColor="#666"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigationProfile"

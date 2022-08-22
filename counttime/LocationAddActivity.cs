@@ -17,10 +17,10 @@ using System.Text;
 namespace counttime
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = false)]
-    public class DiaryAddActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
+    public class LocationAddActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
     {
         static CountTimeDatabase database;
-        private Diary ctDiaryEdit;
+        private Location ctLocationEdit;
 
         // Create the database connection as a singleton.
         public static CountTimeDatabase Database
@@ -68,22 +68,22 @@ namespace counttime
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SupportActionBar.Hide();
-            SetContentView(Resource.Layout.activity_DiaryAdd);
-            BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation6);
+            SetContentView(Resource.Layout.activity_LocationAdd);
+            BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigationLocationAdd);
             navigation.SetOnNavigationItemSelectedListener(this);
-            navigation.Menu.GetItem(2).SetChecked(true);
+            navigation.Menu.GetItem(0).SetChecked(true);
 
             this.UserProfile = Database.GetProfiles().FirstOrDefault();
-            if(Intent.GetIntExtra("DiaryId", 0) != 0)
+            if(Intent.GetIntExtra("LocationId", 0) != 0)
             {
-                ctDiaryEdit = database.GetDiary(Intent.GetIntExtra("DiaryId", 0));
+                ctLocationEdit = database.GetLocation(Intent.GetIntExtra("LocationId", 0));
             }
 
             DatePickerDialog createdtDateDialog = new DatePickerDialog(this, OnStartDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
             
 
-            EditText txtCreatedtDate = FindViewById<EditText>(Resource.Id.DiaryCreatedDate);
+            EditText txtCreatedtDate = FindViewById<EditText>(Resource.Id.LocationArrivalDate);
             if(txtCreatedtDate.Text == String.Empty)
             {
                 txtCreatedtDate.Text = DateTime.Now.ToShortDateString();
@@ -93,64 +93,66 @@ namespace counttime
                 createdtDateDialog.Show();
             };
 
-            if (ctDiaryEdit != null && ctDiaryEdit.Id > 0)
+            if (ctLocationEdit != null && ctLocationEdit.Id > 0)
             {
-                createdtDateDialog.UpdateDate(ctDiaryEdit.CreatedDate);
-                txtCreatedtDate.Text = ctDiaryEdit.CreatedDate.ToShortDateString();
-                EditText Subject = FindViewById<EditText>(Resource.Id.DiarySubject);
-                Subject.Text = ctDiaryEdit.Subject;
-                EditText Detail = FindViewById<EditText>(Resource.Id.DiaryDetail);
-                Detail.Text = ctDiaryEdit.Details;
+                createdtDateDialog.UpdateDate(ctLocationEdit.ArrivalDate);
+                txtCreatedtDate.Text = ctLocationEdit.ArrivalDate.ToShortDateString();
+                EditText Subject = FindViewById<EditText>(Resource.Id.LocationName);
+                Subject.Text = ctLocationEdit.Name;
+                EditText Detail = FindViewById<EditText>(Resource.Id.LocationNotes);
+                Detail.Text = ctLocationEdit.Notes;
+                EditText daysLost = FindViewById<EditText>(Resource.Id.LocationCell);
+                daysLost.Text = ctLocationEdit.Cell.ToString();
             }
             else
             {
                 createdtDateDialog.UpdateDate(DateTime.Now);
-                FindViewById<Button>(Resource.Id.DeleteDiary).Visibility = ViewStates.Invisible;
+                FindViewById<Button>(Resource.Id.DeleteLocation).Visibility = ViewStates.Invisible;
             }
 
-            Button saveDiary = FindViewById<Button>(Resource.Id.SaveDiary);
-            saveDiary.Click += (sender, e) => { OnSaveDiaryTouch(); };
+            Button saveLocation = FindViewById<Button>(Resource.Id.SaveLocation);
+            saveLocation.Click += (sender, e) => { OnSaveLocationTouch(); };
 
-            Button deleteDiary = FindViewById<Button>(Resource.Id.DeleteDiary);
-            deleteDiary.Click += (sender, e) => { OnDeleteDiaryTouch(); };
+            Button deleteLocation = FindViewById<Button>(Resource.Id.DeleteLocation);
+            deleteLocation.Click += (sender, e) => { OnDeleteLocationTouch(); };
         }
 
-        private void OnDeleteDiaryTouch()
+        private void OnDeleteLocationTouch()
         {
-            if (ctDiaryEdit != null && ctDiaryEdit.Id > 0)
+            if (ctLocationEdit != null && ctLocationEdit.Id > 0)
             {
-                Database.DeleteDiary(ctDiaryEdit);
-                Android.Widget.Toast.MakeText(this, "Diary Deleted", Android.Widget.ToastLength.Long).Show();
-                Intent intent3 = new Intent(this, typeof(DiaryListActivity));
+                Database.DeleteLocation(ctLocationEdit);
+                Android.Widget.Toast.MakeText(this, "Location Deleted", Android.Widget.ToastLength.Long).Show();
+                Intent intent3 = new Intent(this, typeof(LocationListActivity));
                 StartActivity(intent3);
             }
             
         }
 
-        private void OnSaveDiaryTouch()
+        private void OnSaveLocationTouch()
         {
-            Diary newDiary = new Diary()
+            Location newLocation = new Location()
             {
-                Subject = FindViewById<EditText>(Resource.Id.DiarySubject).Text,
-                CreatedDate = DateTime.Parse(FindViewById<EditText>(Resource.Id.DiaryCreatedDate).Text),
-                UpdatedDate = DateTime.Now,
-                Details = FindViewById<EditText>(Resource.Id.DiaryDetail).Text,
+                Name = FindViewById<EditText>(Resource.Id.LocationName).Text,
+                ArrivalDate = DateTime.Parse(FindViewById<EditText>(Resource.Id.LocationArrivalDate).Text),
+                Notes = FindViewById<EditText>(Resource.Id.LocationNotes).Text,
+                Cell = FindViewById<EditText>(Resource.Id.LocationCell).Text,
                 UserId = UserProfile.Id
             };
-            if(ctDiaryEdit != null && ctDiaryEdit.Id > 0)
+            if(ctLocationEdit != null && ctLocationEdit.Id > 0)
             {
-                newDiary.Id = ctDiaryEdit.Id;
+                newLocation.Id = ctLocationEdit.Id;
             }
-            Database.SaveDiary(newDiary);
-            Android.Widget.Toast.MakeText(this, "Diary Saved", Android.Widget.ToastLength.Long).Show();
+            Database.SaveLocation(newLocation);
+            Android.Widget.Toast.MakeText(this, "Location Saved", Android.Widget.ToastLength.Long).Show();
 
-            Intent intent2 = new Intent(this, typeof(DiaryListActivity));
+            Intent intent2 = new Intent(this, typeof(LocationListActivity));
             StartActivity(intent2);
         }
 
         private void OnStartDateSet(object sender, DatePickerDialog.DateSetEventArgs e)
         {
-            EditText txtPrefDate = FindViewById<EditText>(Resource.Id.DiaryCreatedDate);
+            EditText txtPrefDate = FindViewById<EditText>(Resource.Id.LocationArrivalDate);
             txtPrefDate.Text = e.Date.ToShortDateString();
             return;
         }

@@ -17,10 +17,10 @@ using System.Text;
 namespace counttime
 {
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme", MainLauncher = false)]
-    public class DiaryAddActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
+    public class WorkAssignmentAddActivity : AppCompatActivity, BottomNavigationView.IOnNavigationItemSelectedListener
     {
         static CountTimeDatabase database;
-        private Diary ctDiaryEdit;
+        private WorkAssignment ctWorkAssignmentEdit;
 
         // Create the database connection as a singleton.
         public static CountTimeDatabase Database
@@ -68,22 +68,22 @@ namespace counttime
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SupportActionBar.Hide();
-            SetContentView(Resource.Layout.activity_DiaryAdd);
-            BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation6);
+            SetContentView(Resource.Layout.activity_WorkAssignmentAdd);
+            BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigationWorkAssignmentAdd);
             navigation.SetOnNavigationItemSelectedListener(this);
-            navigation.Menu.GetItem(2).SetChecked(true);
+            navigation.Menu.GetItem(0).SetChecked(true);
 
             this.UserProfile = Database.GetProfiles().FirstOrDefault();
-            if(Intent.GetIntExtra("DiaryId", 0) != 0)
+            if(Intent.GetIntExtra("WorkAssignmentId", 0) != 0)
             {
-                ctDiaryEdit = database.GetDiary(Intent.GetIntExtra("DiaryId", 0));
+                ctWorkAssignmentEdit = database.GetWorkAssignment(Intent.GetIntExtra("WorkAssignmentId", 0));
             }
 
             DatePickerDialog createdtDateDialog = new DatePickerDialog(this, OnStartDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
             
 
-            EditText txtCreatedtDate = FindViewById<EditText>(Resource.Id.DiaryCreatedDate);
+            EditText txtCreatedtDate = FindViewById<EditText>(Resource.Id.WorkAssignmentArrivalDate);
             if(txtCreatedtDate.Text == String.Empty)
             {
                 txtCreatedtDate.Text = DateTime.Now.ToShortDateString();
@@ -93,64 +93,63 @@ namespace counttime
                 createdtDateDialog.Show();
             };
 
-            if (ctDiaryEdit != null && ctDiaryEdit.Id > 0)
+            if (ctWorkAssignmentEdit != null && ctWorkAssignmentEdit.Id > 0)
             {
-                createdtDateDialog.UpdateDate(ctDiaryEdit.CreatedDate);
-                txtCreatedtDate.Text = ctDiaryEdit.CreatedDate.ToShortDateString();
-                EditText Subject = FindViewById<EditText>(Resource.Id.DiarySubject);
-                Subject.Text = ctDiaryEdit.Subject;
-                EditText Detail = FindViewById<EditText>(Resource.Id.DiaryDetail);
-                Detail.Text = ctDiaryEdit.Details;
+                createdtDateDialog.UpdateDate(ctWorkAssignmentEdit.StartDate);
+                txtCreatedtDate.Text = ctWorkAssignmentEdit.StartDate.ToShortDateString();
+                EditText Subject = FindViewById<EditText>(Resource.Id.WorkAssignmentName);
+                Subject.Text = ctWorkAssignmentEdit.Name;
+                EditText Detail = FindViewById<EditText>(Resource.Id.WorkAssignmentNotes);
+                Detail.Text = ctWorkAssignmentEdit.Notes;
             }
             else
             {
                 createdtDateDialog.UpdateDate(DateTime.Now);
-                FindViewById<Button>(Resource.Id.DeleteDiary).Visibility = ViewStates.Invisible;
+                FindViewById<Button>(Resource.Id.DeleteWorkAssignment).Visibility = ViewStates.Invisible;
             }
 
-            Button saveDiary = FindViewById<Button>(Resource.Id.SaveDiary);
-            saveDiary.Click += (sender, e) => { OnSaveDiaryTouch(); };
+            Button saveWorkAssignment = FindViewById<Button>(Resource.Id.SaveWorkAssignment);
+            saveWorkAssignment.Click += (sender, e) => { OnSaveWorkAssignmentTouch(); };
 
-            Button deleteDiary = FindViewById<Button>(Resource.Id.DeleteDiary);
-            deleteDiary.Click += (sender, e) => { OnDeleteDiaryTouch(); };
+            Button deleteWorkAssignment = FindViewById<Button>(Resource.Id.DeleteWorkAssignment);
+            deleteWorkAssignment.Click += (sender, e) => { OnDeleteWorkAssignmentTouch(); };
         }
 
-        private void OnDeleteDiaryTouch()
+        private void OnDeleteWorkAssignmentTouch()
         {
-            if (ctDiaryEdit != null && ctDiaryEdit.Id > 0)
+            if (ctWorkAssignmentEdit != null && ctWorkAssignmentEdit.Id > 0)
             {
-                Database.DeleteDiary(ctDiaryEdit);
-                Android.Widget.Toast.MakeText(this, "Diary Deleted", Android.Widget.ToastLength.Long).Show();
-                Intent intent3 = new Intent(this, typeof(DiaryListActivity));
+                Database.DeleteWorkAssignment(ctWorkAssignmentEdit);
+                Android.Widget.Toast.MakeText(this, "WorkAssignment Deleted", Android.Widget.ToastLength.Long).Show();
+                Intent intent3 = new Intent(this, typeof(WorkAssignmentListActivity));
                 StartActivity(intent3);
             }
             
         }
 
-        private void OnSaveDiaryTouch()
+        private void OnSaveWorkAssignmentTouch()
         {
-            Diary newDiary = new Diary()
+            WorkAssignment newWorkAssignment = new WorkAssignment()
             {
-                Subject = FindViewById<EditText>(Resource.Id.DiarySubject).Text,
-                CreatedDate = DateTime.Parse(FindViewById<EditText>(Resource.Id.DiaryCreatedDate).Text),
-                UpdatedDate = DateTime.Now,
-                Details = FindViewById<EditText>(Resource.Id.DiaryDetail).Text,
+                Name = FindViewById<EditText>(Resource.Id.WorkAssignmentName).Text,
+                StartDate = DateTime.Parse(FindViewById<EditText>(Resource.Id.WorkAssignmentArrivalDate).Text),
+                Notes = FindViewById<EditText>(Resource.Id.WorkAssignmentNotes).Text,
                 UserId = UserProfile.Id
             };
-            if(ctDiaryEdit != null && ctDiaryEdit.Id > 0)
+            if(ctWorkAssignmentEdit != null && ctWorkAssignmentEdit.Id > 0)
             {
-                newDiary.Id = ctDiaryEdit.Id;
+                newWorkAssignment.Id = ctWorkAssignmentEdit.Id;
             }
-            Database.SaveDiary(newDiary);
-            Android.Widget.Toast.MakeText(this, "Diary Saved", Android.Widget.ToastLength.Long).Show();
+            Database.SaveWorkAssignment(newWorkAssignment);
+            Android.Widget.Toast.MakeText(this, "WorkAssignment Saved", Android.Widget.ToastLength.Long).Show();
 
-            Intent intent2 = new Intent(this, typeof(DiaryListActivity));
+            Intent intent2 = new Intent(this, typeof(WorkAssignmentListActivity));
             StartActivity(intent2);
         }
 
         private void OnStartDateSet(object sender, DatePickerDialog.DateSetEventArgs e)
         {
-            EditText txtPrefDate = FindViewById<EditText>(Resource.Id.DiaryCreatedDate);
+            EditText txtPrefDate = FindViewById<EditText>(Resource.Id.WorkAssignmentArrivalDate);
             txtPrefDate.Text = e.Date.ToShortDateString();
             return;
         }

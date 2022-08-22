@@ -1,7 +1,7 @@
-﻿using Android.App;
+﻿
+using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
@@ -9,10 +9,8 @@ using counttime.Data;
 using counttime.Models;
 using Google.Android.Material.BottomNavigation;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace counttime
 {
@@ -51,6 +49,11 @@ namespace counttime
                     StartActivity(intent3);
                     //SetContentView(Resource.Layout.activity);
                     return true;
+                case Resource.Id.navigation_history:
+                    Intent intent4 = new Intent(this, typeof(HistoryActivity));
+                    StartActivity(intent4);
+                    //SetContentView(Resource.Layout.activity);
+                    return true;
             }
             return false;
         }
@@ -63,6 +66,7 @@ namespace counttime
             SetContentView(Resource.Layout.activity_Profile);
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigationProfile);
             navigation.SetOnNavigationItemSelectedListener(this);
+            navigation.Menu.GetItem(0).SetChecked(true);
 
             this.UserProfile = Database.GetProfiles().FirstOrDefault();
 
@@ -73,6 +77,16 @@ namespace counttime
 
             Button calculate = FindViewById<Button>(Resource.Id.calculate);
             calculate.Click += (sender, e) => { OnCalculateClick(UserProfile, Database); };
+
+            Button incidentsButton = FindViewById<Button>(Resource.Id.ManageIncidentsButton);
+            incidentsButton.Click += (sender, e) => { OnManageIncidentsButtonClick(); };
+
+            Button locationsButton = FindViewById<Button>(Resource.Id.ManageLocationsButton);
+            locationsButton.Click += (sender, e) => { OnManageLocationsButtonClick(); };
+
+            Button workAssignmentsButton = FindViewById<Button>(Resource.Id.ManageWorkAssignmentsButton);
+            workAssignmentsButton.Click += (sender, e) => { OnManageWorkAssignmentsButtonClick(); };
+
             EditText txtStartDate = FindViewById<EditText>(Resource.Id.startDate);
             txtStartDate.Touch += (sender, e) =>
             {
@@ -126,13 +140,20 @@ namespace counttime
                 }
             }
             var sentenceDatePref = UserProfile.SentenceDate ??= DateTime.Now;
+            var isSentenceDateEnabled = UserProfile.IsSentenceDateEnabled;
+            EditText sentenceDate = (EditText)FindViewById(Resource.Id.sentenceDate);
             if (sentenceDatePref != null)
             {
                 sentenceDateDialog.DatePicker.DateTime = sentenceDatePref;
-                EditText sentenceDate = (EditText)FindViewById(Resource.Id.sentenceDate);
+                
+
                 sentenceDate.Text = sentenceDatePref.ToShortDateString();
             }
+
             var ignoreSentenceDate = FindViewById<Switch>(Resource.Id.ProfileIgnoreSentenceDate);
+            ignoreSentenceDate.Checked = UserProfile.IsSentenceDateEnabled;
+            sentenceDate.Enabled = ignoreSentenceDate.Checked;
+
             ignoreSentenceDate.CheckedChange += IgnoreSentenceDate_CheckedChange;
 
             var totDays = (UserProfile.EndDate.Value - UserProfile.StartDate.Value).TotalDays;
@@ -142,6 +163,24 @@ namespace counttime
             rText.Text += System.Environment.NewLine + Math.Round(totProgress, 2) + "% of the way there, keep it up!";
         }
 
+        private void OnManageWorkAssignmentsButtonClick()
+        {
+            Intent intent1 = new Intent(this, typeof(WorkAssignmentListActivity));
+            StartActivity(intent1);
+        }
+
+        private void OnManageIncidentsButtonClick()
+        {
+            Intent intent1 = new Intent(this, typeof(IncidentListActivity));
+            StartActivity(intent1);
+        }
+
+        private void OnManageLocationsButtonClick()
+        {
+            Intent intent1 = new Intent(this, typeof(LocationListActivity));
+            StartActivity(intent1);
+        }
+
         private void IgnoreSentenceDate_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
         {
             var ignore = sender as Switch;
@@ -149,10 +188,12 @@ namespace counttime
             if (ignore.Checked)
             {
                 sentenceDate.Enabled = true;
+                UserProfile.IsSentenceDateEnabled = true;
             }
             else
             {
                 sentenceDate.Enabled = false;
+                UserProfile.IsSentenceDateEnabled = false;
             }
         }
 
@@ -187,6 +228,8 @@ namespace counttime
             EditText rDate = (EditText)FindViewById(Resource.Id.releaseDate);
             EditText sDate = (EditText)FindViewById(Resource.Id.startDate);
             EditText sentenceDate = (EditText)FindViewById(Resource.Id.sentenceDate);
+            Switch isSentenceDateEnabled = FindViewById<Switch>(Resource.Id.ProfileIgnoreSentenceDate);
+            UserProfile.IsSentenceDateEnabled = isSentenceDateEnabled.Checked;
             if (sentenceDate != null)
             {
                 UserProfile.SentenceDate = DateTime.Parse(sentenceDate.Text);

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingTop="30dp">
+    <TextView
+        android:fontFamily="@font/turislight"
+        android:text="Name:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/LocationNameText" />
+    <EditText
+        android:fontFamily="@font/turislight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LocationNameText"
+        android:id="@+id/LocationName"
+        android:inputType="text" />
+    <TextView
+        android:fontFamily="@font/turislight"
+        android:text="Unit / Cell:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LocationName"
+        android:id="@+id/LocationCellText" />
+    <EditText
+        android:fontFamily="@font/turislight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LocationCellText"
+        android:id="@+id/LocationCell"
+        android:inputType="text" />
+    <TextView
+        android:fontFamily="@font/turislight"
+        android:text="Notes:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LocationCell"
+        android:id="@+id/LocationNotesText" />
+    <EditText
+        android:fontFamily="@font/turislight"
+        android:height="120dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LocationNotesText"
+        android:id="@+id/LocationNotes"
+        android:inputType="textMultiLine"
+        android:gravity="top"
+        android:foregroundGravity="top" />
+    <TextView
+        android:fontFamily="@font/turislight"
+        android:text="Location Date:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LocationNotes"
+        android:id="@+id/LocationArrivalDateText" />
+    <EditText
+        android:fontFamily="@font/turislight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LocationArrivalDateText"
+        android:id="@+id/LocationArrivalDate"
+        android:inputType="none"
+        android:editable="false"/>
+
+    <com.google.android.material.button.MaterialButton
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:fontFamily="@font/turislight"
+        android:text="Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LocationArrivalDate"
+        android:id="@+id/SaveLocation"
+        app:backgroundTint="?android:attr/colorBackground"
+        app:rippleColor="#999"
+        android:textColor="#666"/>
+    <com.google.android.material.button.MaterialButton
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:fontFamily="@font/turislight"
+        android:text="Delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/LocationArrivalDate"
+        android:layout_alignParentRight="true"
+        android:id="@+id/DeleteLocation"
+        app:backgroundTint="?android:attr/colorBackground"
+        app:rippleColor="#999"
+        android:textColor="#666" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigationLocationAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:background="?android:attr/windowBackground"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/navigation" />
+</RelativeLayout>

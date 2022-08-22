@@ -42,6 +42,7 @@ namespace counttime
 
             BottomNavigationView navigation = FindViewById<BottomNavigationView>(Resource.Id.navigation);
             navigation.SetOnNavigationItemSelectedListener(this);
+            navigation.Menu.GetItem(0).SetChecked(true);
 
             var UserProfile = getProfile();
 
@@ -117,6 +118,11 @@ namespace counttime
                 case Resource.Id.navigation_diary:
                     Intent intent2 = new Intent(this, typeof(DiaryListActivity));
                     StartActivity(intent2);
+                    //SetContentView(Resource.Layout.activity);
+                    return true;
+                case Resource.Id.navigation_history:
+                    Intent intent4 = new Intent(this, typeof(HistoryActivity));
+                    StartActivity(intent4);
                     //SetContentView(Resource.Layout.activity);
                     return true;
             }

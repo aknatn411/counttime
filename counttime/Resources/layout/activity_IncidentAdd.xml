@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingTop="30dp">
+    <TextView
+        android:fontFamily="@font/turislight"
+        android:text="Name:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/IncidentNameText" />
+    <EditText
+        android:fontFamily="@font/turislight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/IncidentNameText"
+        android:id="@+id/IncidentName"
+        android:inputType="text" />
+    <TextView
+        android:fontFamily="@font/turislight"
+        android:text="Details:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/IncidentName"
+        android:id="@+id/IncidentDetailsText" />
+    <EditText
+        android:fontFamily="@font/turislight"
+        android:height="120dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/IncidentDetailsText"
+        android:id="@+id/IncidentDetails"
+        android:inputType="textMultiLine"
+        android:gravity="top"
+        android:foregroundGravity="top" />
+    <TextView
+        android:fontFamily="@font/turislight"
+        android:text="Incident Date:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/IncidentDetails"
+        android:id="@+id/IncidentDateText" />
+    <EditText
+        android:fontFamily="@font/turislight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/IncidentDateText"
+        android:id="@+id/IncidentDate"
+        android:inputType="none"
+        android:editable="false"/>
+    <TextView
+        android:fontFamily="@font/turislight"
+        android:text="Good Time Days Lost:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/IncidentDate"
+        android:id="@+id/IncidentDaysLostText" />
+    <EditText
+        android:fontFamily="@font/turislight"
+        android:layout_below="@id/IncidentDaysLostText"
+        android:inputType="number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/IncidentDaysLost" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:fontFamily="@font/turislight"
+        android:text="Save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/IncidentDaysLost"
+        android:id="@+id/SaveIncident"
+        app:backgroundTint="?android:attr/colorBackground"
+        app:rippleColor="#999"
+        android:textColor="#666"/>
+    <com.google.android.material.button.MaterialButton
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:fontFamily="@font/turislight"
+        android:text="Delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/IncidentDaysLost"
+        android:layout_alignParentRight="true"
+        android:id="@+id/DeleteIncident"
+        app:backgroundTint="?android:attr/colorBackground"
+        app:rippleColor="#999"
+        android:textColor="#666" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigationIncidentAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginStart="0dp"
+        android:background="?android:attr/windowBackground"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/navigation" />
+</RelativeLayout>
