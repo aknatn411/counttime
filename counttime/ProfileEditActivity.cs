@@ -11,6 +11,7 @@ using Google.Android.Material.BottomNavigation;
 using System;
 using System.IO;
 using System.Linq;
+using AlertDialog = Android.App.AlertDialog;
 
 namespace counttime
 {
@@ -139,13 +140,18 @@ namespace counttime
                     rText3.Text += System.Environment.NewLine + Math.Round((DateTime.Parse(rDate.Text) - System.DateTime.Now).TotalDays, 0).ToString("n0") + " days to release.";
                 }
             }
+            var epoch = new DateTime(1970, 1, 1);
+
+            startDateDialog.DatePicker.MaxDate = (long)(DateTime.Now - epoch).TotalMilliseconds;
+            //releaseDateDialog.DatePicker.MinDate = (long)(startDateDialog.DatePicker.DateTime.AddDays(2) - epoch).TotalMilliseconds;
+
             var sentenceDatePref = UserProfile.SentenceDate ??= DateTime.Now;
             var isSentenceDateEnabled = UserProfile.IsSentenceDateEnabled;
             EditText sentenceDate = (EditText)FindViewById(Resource.Id.sentenceDate);
             if (sentenceDatePref != null)
             {
                 sentenceDateDialog.DatePicker.DateTime = sentenceDatePref;
-                
+
 
                 sentenceDate.Text = sentenceDatePref.ToShortDateString();
             }
@@ -219,15 +225,47 @@ namespace counttime
         }
         public bool OnCalculateClick(Profile UserProfile, CountTimeDatabase Database)
         {
+            EditText rDate = (EditText)FindViewById(Resource.Id.releaseDate);
+            EditText sDate = (EditText)FindViewById(Resource.Id.startDate);
+            EditText sentenceDate = (EditText)FindViewById(Resource.Id.sentenceDate);
+
+            if (DateTime.Parse(rDate.Text) <= DateTime.Parse(sDate.Text))
+            {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.SetTitle("Error");
+                alert.SetMessage("Release date must be greater than start date.");
+                alert.SetPositiveButton("OK", (senderAlert, args) =>
+                {
+                    return;
+                });
+
+                Dialog dialog = alert.Create();
+                dialog.Show();
+                return false;
+            }
+
+            if (DateTime.Parse(sDate.Text) >= DateTime.Parse(rDate.Text))
+            {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.SetTitle("Error");
+                alert.SetMessage("Start date must be less than release date.");
+                alert.SetPositiveButton("OK", (senderAlert, args) =>
+                {
+                    return;
+                });
+
+                Dialog dialog = alert.Create();
+                dialog.Show();
+                return false;
+            }
+
             var name = FindViewById<TextView>(Resource.Id.UserName);
             if (name != null)
             {
                 UserProfile.UserName = name.Text;
             }
 
-            EditText rDate = (EditText)FindViewById(Resource.Id.releaseDate);
-            EditText sDate = (EditText)FindViewById(Resource.Id.startDate);
-            EditText sentenceDate = (EditText)FindViewById(Resource.Id.sentenceDate);
+
             Switch isSentenceDateEnabled = FindViewById<Switch>(Resource.Id.ProfileIgnoreSentenceDate);
             UserProfile.IsSentenceDateEnabled = isSentenceDateEnabled.Checked;
             if (sentenceDate != null)
