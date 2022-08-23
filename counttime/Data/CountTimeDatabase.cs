@@ -13,6 +13,13 @@ namespace counttime.Data
         public CountTimeDatabase(string dbPath)
         {
             database = new SQLiteConnection(dbPath);
+            //database.DropTable<Profile>();
+            //database.DropTable<Event>();
+            //database.DropTable<Diary>();
+            //database.DropTable<Incident>();
+            //database.DropTable<Location>();
+            //database.DropTable<WorkAssignment>();
+
             database.CreateTable<Profile>();
             database.CreateTable<Event>();
             database.CreateTable<Diary>();

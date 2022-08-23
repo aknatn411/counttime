@@ -141,6 +141,8 @@ namespace counttime
                 profile.UserId = String.Empty;
                 profile.SentenceLengthMonths = 0;
                 profile.TimeServedDays = 0;
+                profile.StartDate = DateTime.Now;
+                profile.EndDate = DateTime.Now;
 
                 var saveResult = Database.SaveProfile(profile);
                 if (saveResult > 0)
