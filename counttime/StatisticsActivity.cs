@@ -75,10 +75,67 @@ namespace counttime
 
             var sDatePref = UserProfile.StartDate ??= DateTime.Now;
             var rDatePref = UserProfile.EndDate ??= DateTime.Now;
+            var totalDays = (rDatePref - sDatePref).TotalDays;
+            var comDays = (DateTime.Now - sDatePref).TotalDays;
+            var percentComplete= (comDays/totalDays) * 100;
+
             TextView remDaysValue = FindViewById<TextView>(Resource.Id.StatsDaysRemainingValue);
-            remDaysValue.Text = Math.Round((System.DateTime.Now - sDatePref).TotalDays, 0).ToString("n0");
+            remDaysValue.Text = Math.Round((rDatePref - DateTime.Now).TotalDays, 0).ToString("n0");
             
+            var wednesdaysLeft = CountDays(DayOfWeek.Wednesday, sDatePref, rDatePref);
+            var wednesdaysLefValuetView = FindViewById<TextView>(Resource.Id.StatsWednesdaysRemainingValue);
+            wednesdaysLefValuetView.Text = wednesdaysLeft.ToString("n0");
+
+            var daysServedValue = FindViewById<TextView>(Resource.Id.StatsDaysServedValue);
+            daysServedValue.Text = Math.Round((DateTime.Now - sDatePref).TotalDays).ToString("n0");
+
+            var percentCompleteValue = FindViewById<TextView>(Resource.Id.StatsPercentCompleteValue);
+
+            percentCompleteValue.Text = Math.Round(percentComplete, 0) + "%";
+
+            var locations = Database.GetLocations().OrderByDescending(l => l.ArrivalDate);
+            string locationDays = String.Empty;
+
+            var currentLocation = locations.FirstOrDefault();
+            if (currentLocation != null)
+            {
+                locationDays += System.Environment.NewLine + Math.Round(((DateTime.Now - currentLocation.ArrivalDate).TotalDays / totalDays) * 100, 2) + "% served at " + currentLocation.Name;
+            }
+            else
+            {
+                locationDays = "Not currently tracking locations.";
+            }
+            
+
+            foreach (Location location in locations)
+            {
+                var curDate = location.ArrivalDate;
+                
+                var nextLocation = locations.Where(l => l.ArrivalDate < curDate).OrderByDescending(l => l.ArrivalDate).FirstOrDefault();
+
+                if(nextLocation != null)
+                {
+                    var daysDiff = (curDate - nextLocation.ArrivalDate).TotalDays;
+                    locationDays += System.Environment.NewLine + Math.Round((daysDiff / totalDays) * 100, 2) + "% served at " + nextLocation.Name;
+                }
+            }
+
+            var percentAtText = FindViewById<TextView>(Resource.Id.StatsPercentAtText);
+            percentAtText.Text = locationDays;
         }
-        
+
+        static int CountDays(DayOfWeek day, DateTime start, DateTime end)
+        {
+            TimeSpan ts = end - start;                       // Total duration
+            int count = (int)Math.Floor(ts.TotalDays / 7);   // Number of whole weeks
+            int remainder = (int)(ts.TotalDays % 7);         // Number of remaining days
+            int sinceLastDay = (int)(end.DayOfWeek - day);   // Number of days since last [day]
+            if (sinceLastDay < 0) sinceLastDay += 7;         // Adjust for negative days since last [day]
+
+            // If the days in excess of an even week are greater than or equal to the number days since the last [day], then count this one, too.
+            if (remainder >= sinceLastDay) count++;
+
+            return count;
+        }
     }
 }

@@ -21,7 +21,7 @@
         android:id="@+id/StatisticsTitle" />
     <TextView
         android:text="1000"
-        android:textSize="24pt"
+        android:textSize="22pt"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,6 +34,77 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/StatsDaysRemainingValue"
         android:id="@+id/StatsDaysRemainingText" />
+    <ImageView
+        android:src="@drawable/hamburger"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_below="@id/StatsDaysRemainingText"
+        android:paddingTop="15dp"
+        android:id="@+id/StatsHamburgerImage" />
+
+    <TextView
+        android:text="1000"
+        android:textSize="22pt"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/StatsDaysRemainingText"
+        android:layout_toRightOf="@id/StatsHamburgerImage"
+        android:id="@+id/StatsWednesdaysRemainingValue" />
+    <TextView
+        android:text="Hamburgers Left to Eat"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/StatsWednesdaysRemainingValue"
+        android:id="@+id/StatsWednesdaysRemainingText" />
+
+    <TextView
+        android:text="1000"
+        android:textSize="22pt"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/StatisticsTitle"
+        android:layout_toRightOf="@id/StatsDaysRemainingText"
+        android:paddingLeft="30dp"
+        android:id="@+id/StatsDaysServedValue" />
+    <TextView
+        android:text="Days Served"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/StatsDaysServedValue"
+        android:layout_toRightOf="@id/StatsDaysRemainingText"
+        android:paddingLeft="30dp"
+        android:id="@+id/StatsDaysServedText" />
+
+    <TextView
+        android:text="1000"
+        android:textSize="22pt"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/StatisticsTitle"
+        android:layout_toRightOf="@id/StatsDaysServedValue"
+        android:paddingLeft="30dp"
+        android:id="@+id/StatsPercentCompleteValue" />
+    <TextView
+        android:text="Completed"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/StatsPercentCompleteValue"
+        android:layout_toRightOf="@id/StatsDaysServedText"
+        android:paddingLeft="30dp"
+        android:id="@+id/StatsPercentCompleteText" />
+    <TextView
+        android:text=""
+        android:layout_below="@id/StatsWednesdaysRemainingText"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/StatsPercentAtText" />
 
 
 
