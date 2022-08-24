@@ -99,7 +99,7 @@ namespace counttime
             var currentLocation = locations.FirstOrDefault();
             if (currentLocation != null)
             {
-                locationDays += System.Environment.NewLine + Math.Round(((DateTime.Now - currentLocation.ArrivalDate).TotalDays / totalDays) * 100, 2) + "% served at " + currentLocation.Name;
+                locationDays += System.Environment.NewLine + Math.Round(((DateTime.Now - currentLocation.ArrivalDate).TotalDays / comDays) * 100, 2) + "% served at " + currentLocation.Name;
             }
             else
             {
@@ -116,7 +116,7 @@ namespace counttime
                 if(nextLocation != null)
                 {
                     var daysDiff = (curDate - nextLocation.ArrivalDate).TotalDays;
-                    locationDays += System.Environment.NewLine + Math.Round((daysDiff / totalDays) * 100, 2) + "% served at " + nextLocation.Name;
+                    locationDays += System.Environment.NewLine + Math.Round((daysDiff / comDays) * 100, 2) + "% served at " + nextLocation.Name;
                 }
             }
 
