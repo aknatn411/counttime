@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\CountTimeDatabase.cs" />
+    <Compile Include="StatisticsActivity.cs" />
     <Compile Include="Models\HistoryViewModel.cs" />
     <Compile Include="WorkAssignmentAddActivity.cs" />
     <Compile Include="LocationAddActivity.cs" />
@@ -279,6 +280,17 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\history_expandableListItem.xml">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_Statistics.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\eventDuration_expandableListItem.xml">
       <Generator>MSBuild:UpdateGeneratedFiles</Generator>
       <SubType>Designer</SubType>
     </AndroidResource>

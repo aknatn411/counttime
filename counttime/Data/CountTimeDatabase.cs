@@ -45,10 +45,8 @@ namespace counttime.Data
         }
         public List<Event> GetHomeScreenEvents()
         {
-            var results = database.Table<Event>().ToList();
-            return results.Where(e => e.IsShowOnHomeScreen == true
-             && DateTime.Now >= e.EventStartDate
-             && e.EventEndDate >= DateTime.Now).ToList();
+            var results = database.Table<Event>();
+            return results.Where(e => e.IsShowOnHomeScreen == true && e.EventEndDate > DateTime.Now).ToList();
         }
         public List<Profile> GetProfiles()
         {

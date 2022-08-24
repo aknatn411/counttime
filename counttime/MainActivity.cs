@@ -11,6 +11,7 @@ using counttime.Data;
 using counttime.Models;
 using Google.Android.Material.BottomNavigation;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -54,6 +55,11 @@ namespace counttime
             };
 
             ProgressBar progressBar1 = FindViewById<ProgressBar>(Resource.Id.progressBar1);
+            progressBar1.Touch += (sender, e) =>
+            {
+                Intent intent1 = new Intent(this, typeof(StatisticsActivity));
+                StartActivity(intent1);
+            };
             var totDays = (UserProfile.EndDate.Value - UserProfile.StartDate.Value).TotalDays;
             var comDays = (DateTime.Now - UserProfile.StartDate.Value).TotalDays;
             var totProgress = (comDays / totDays) * 100;
@@ -70,7 +76,7 @@ namespace counttime
 
             if (pastMilestone != null)
             {
-                pastMilestoneText.Text = Math.Round((DateTime.Now -  pastMilestone.EventStartDate ).TotalDays, 0) + " days since " + pastMilestone.Name;
+                pastMilestoneText.Text = Math.Round((DateTime.Now - pastMilestone.EventStartDate).TotalDays, 0) + " days since " + pastMilestone.Name;
             }
 
 
@@ -78,7 +84,7 @@ namespace counttime
             var percentText = FindViewById<TextView>(Resource.Id.mainPercentText);
             var daysRemaining = FindViewById<TextView>(Resource.Id.MainDaysRemaining);
             var daysRemainingCalc = Math.Round((UserProfile.EndDate.Value - DateTime.Now).TotalDays, 0);
-            daysRemaining.Text = daysRemainingCalc.ToString()  + " days until release";
+            daysRemaining.Text = daysRemainingCalc.ToString() + " days until release";
             percentText.Text = Math.Round(totProgress, 0) + "%";
             //percentText.Typeface = Typeface.CreateFromAsset(Assets, "Turis-Light.otf");
 
@@ -86,9 +92,79 @@ namespace counttime
             if (events != null && events.Count > 0)
             {
                 //rText.Text += System.Environment.NewLine + events.Count + " Events in range.";
-                
+
                 var eventList = FindViewById<ListView>(Resource.Id.MainEvents);
-                eventList.Adapter = new EventAdapter(this,events);
+                eventList.Adapter = new EventDurationAdapter(this, events);
+            }
+        }
+
+        public class EventDurationAdapter : BaseAdapter<Event>
+        {
+            public List<Event> sList;
+            private Context sContext;
+            public EventDurationAdapter(Context context, List<Event> list)
+            {
+                sList = list;
+                sContext = context;
+            }
+            public override Event this[int position]
+            {
+                get
+                {
+                    return sList[position];
+                }
+            }
+            public override int Count
+            {
+                get
+                {
+                    return sList.Count;
+                }
+            }
+            public override long GetItemId(int position)
+            {
+                return position;
+            }
+            public override View GetView(int position, View convertView, ViewGroup parent)
+            {
+                View row = convertView;
+                try
+                {
+                    if (row == null)
+                    {
+                        row = LayoutInflater.From(sContext).Inflate(Resource.Layout.eventDuration_expandableListItem, null, false);
+                    }
+                    TextView txtName = row.FindViewById<TextView>(Resource.Id.ListEventName);
+                    DateTime sDate = sList[position].EventStartDate;
+                    DateTime endDate = sList[position].EventEndDate;
+                    string eType = sList[position].EventType;
+                    var progressBar = row.FindViewById<ProgressBar>(Resource.Id.eventDurationProgressBar);
+                    progressBar.Id = progressBar.Id + 1;
+                    if (eType == "Duration")
+                    {
+                        txtName.Text = sList[position].Name + " \n" + sDate.ToShortDateString() + " to " + endDate.ToShortDateString();
+                        var totDays = (endDate - sDate).TotalDays;
+                        var comDays = (DateTime.Now - sDate).TotalDays;
+                        var totProgress = (comDays / totDays) * 100;
+                        
+                        progressBar.Progress = (int)totProgress;
+                        progressBar.ScaleY = 2;
+                    }
+                    else
+                    {
+                        txtName.Text = sList[position].Name + " coming up in " + Math.Round((sDate - DateTime.Now).TotalDays, 0) + " days";
+                        progressBar.Visibility = ViewStates.Invisible;
+                    }
+
+
+                    
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                }
+                finally { }
+                return row;
             }
         }
 
@@ -128,7 +204,7 @@ namespace counttime
             }
             return false;
         }
-        
+
         public Profile getProfile()
         {
             var dbResult = Database.GetProfiles();
