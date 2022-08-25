@@ -26,7 +26,9 @@ namespace counttime.Models
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public DateTime? ProjectedReleaseDate { get; set; }
+        public int? LockdownEventId { get; set; }
 
         public bool IsSentenceDateEnabled { get; set; }
+        public bool IsOnLockdown { get; set; }
     }
 }

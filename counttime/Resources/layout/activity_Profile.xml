@@ -81,7 +81,6 @@
         android:checked="true"
         android:id="@+id/ProfileIgnoreSentenceDate" />
 
-
     <EditText
         android:fontFamily="@font/turislight"
         android:editable="false"
@@ -91,13 +90,39 @@
         android:id="@+id/sentenceDate"
         android:inputType="none" />
 
+    <TextView
+        android:fontFamily="@font/turislight"
+        android:text="Lockdown:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sentenceDate"
+        android:id="@+id/ProfileLockdownText"
+       />
+    <Switch
+        android:layout_below="@id/sentenceDate"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:id="@+id/ProfileLockdownSwitch" />
+
+    <View
+        android:id="@+id/ProfileSwitchSeperator"
+        android:paddingTop="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/ProfileLockdownSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#666666"/>
+
     <com.google.android.material.button.MaterialButton
         style="@android:style/Widget.Material.Button.Borderless"
         android:fontFamily="@font/turislight"
         android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/sentenceDate"
+        android:layout_below="@id/ProfileSwitchSeperator"
         android:id="@+id/calculate"
         app:backgroundTint="?android:attr/colorBackground"
         app:rippleColor="#999"
@@ -105,6 +130,7 @@
 
     <TextView
         android:fontFamily="@font/turislight"
+        android:visibility="gone"
         android:text="Loading Results"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
@@ -120,7 +146,7 @@
         android:layout_below="@id/remainingdays"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="#666666"/>
 
     <com.google.android.material.button.MaterialButton
         style="@android:style/Widget.Material.Button.Borderless"

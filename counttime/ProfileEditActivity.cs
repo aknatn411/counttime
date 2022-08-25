@@ -162,11 +162,30 @@ namespace counttime
 
             ignoreSentenceDate.CheckedChange += IgnoreSentenceDate_CheckedChange;
 
+            var lockdownSwitch = FindViewById<Switch>(Resource.Id.ProfileLockdownSwitch);
+            lockdownSwitch.Checked = UserProfile.IsOnLockdown;
+            sentenceDate.Enabled = lockdownSwitch.Checked;
+
+            lockdownSwitch.CheckedChange += LockdownSwitch_CheckedChange;
+
             var totDays = (UserProfile.EndDate.Value - UserProfile.StartDate.Value).TotalDays;
             var comDays = (DateTime.Now - UserProfile.StartDate.Value).TotalDays;
             var totProgress = (comDays / totDays) * 100;
             var rText = FindViewById<TextView>(Resource.Id.remainingdays);
             rText.Text += System.Environment.NewLine + Math.Round(totProgress, 2) + "% of the way there, keep it up!";
+        }
+
+        private void LockdownSwitch_CheckedChange(object sender, CompoundButton.CheckedChangeEventArgs e)
+        {
+            var lockdown = sender as Switch;
+            if (lockdown.Checked)
+            {
+                UserProfile.IsOnLockdown = true;
+            }
+            else
+            {
+                UserProfile.IsOnLockdown = false;
+            }
         }
 
         private void OnManageWorkAssignmentsButtonClick()
@@ -272,6 +291,40 @@ namespace counttime
             {
                 UserProfile.SentenceDate = DateTime.Parse(sentenceDate.Text);
             }
+
+            Switch lockdownOn = FindViewById<Switch>(Resource.Id.ProfileLockdownSwitch);
+            UserProfile.IsOnLockdown = lockdownOn.Checked;
+            if (lockdownOn.Checked)
+            {
+                if (!UserProfile.LockdownEventId.HasValue)
+                {
+                    var lEvent = new Event()
+                    {
+                        Name = "Lockdown",
+                        EventStartDate = DateTime.Now,
+                        EventEndDate = DateTime.Now,
+                        Details = String.Empty,
+                        EventType = "Lockdown",
+                        IsSystem = true,
+                        IsEditable = false,
+                        IsShowOnHomeScreen = false,
+                        ProfileId = UserProfile.Id
+                    };
+                    UserProfile.LockdownEventId = Database.SaveEvent(lEvent);
+                }
+            }
+            else
+            {
+                if (UserProfile.LockdownEventId.HasValue)
+                {
+                    var lEventEdit = Database.GetEvent(UserProfile.LockdownEventId.Value);
+                    lEventEdit.EventEndDate = DateTime.Now;
+                    Database.SaveEvent(lEventEdit);
+                    UserProfile.LockdownEventId = null;
+                    UserProfile.IsOnLockdown = false;
+                }
+            }
+
             if (sDate != null)
             {
                 UserProfile.StartDate = DateTime.Parse(sDate.Text);

@@ -137,6 +137,12 @@ namespace counttime
                     case "Anniversary":
                         spinner.SetSelection(3);
                         break;
+                    case "Lockdown":
+                        spinner.SetSelection(4);
+                        break;
+                    case "SHU":
+                        spinner.SetSelection(5);
+                        break;
                     default:
                         spinner.SetSelection(0);
                         break;
@@ -175,16 +181,16 @@ namespace counttime
                 showOnHome.Visibility = ViewStates.Visible;
                 showOnHome.Visibility = ViewStates.Visible;
             }
-            if (selectedEventType != "Duration")
-            {
-
-                EndDate.Visibility = ViewStates.Gone;
-                EndDateText.Visibility = ViewStates.Gone;
-            }
-            else
+            if (selectedEventType == "Duration" || selectedEventType == "Lockdown" || selectedEventType == "SHU")
             {
                 EndDate.Visibility = ViewStates.Visible;
                 EndDateText.Visibility = ViewStates.Visible;
+
+            }
+            else
+            {
+                EndDate.Visibility = ViewStates.Gone;
+                EndDateText.Visibility = ViewStates.Gone;
             }
         }
 
@@ -206,7 +212,7 @@ namespace counttime
             {
                 Name = FindViewById<EditText>(Resource.Id.EventName).Text,
                 EventStartDate = DateTime.Parse(FindViewById<EditText>(Resource.Id.EventStartDate).Text),
-                EventEndDate = (selectedEventType == "Duration") ? DateTime.Parse(FindViewById<EditText>(Resource.Id.EventEndDate).Text) : DateTime.Parse(FindViewById<EditText>(Resource.Id.EventStartDate).Text),
+                EventEndDate = (selectedEventType == "Duration" || selectedEventType == "Lockdown" || selectedEventType == " SHU") ? DateTime.Parse(FindViewById<EditText>(Resource.Id.EventEndDate).Text) : DateTime.Parse(FindViewById<EditText>(Resource.Id.EventStartDate).Text),
                 ProfileId = UserProfile.Id,
                 EventType = selectedEventType,
                 IsEditable = true,

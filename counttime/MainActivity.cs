@@ -83,7 +83,7 @@ namespace counttime
             progressBar1.Progress = (int)totProgress;
             var percentText = FindViewById<TextView>(Resource.Id.mainPercentText);
             var daysRemaining = FindViewById<TextView>(Resource.Id.MainDaysRemaining);
-            var daysRemainingCalc = Math.Round((UserProfile.EndDate.Value - DateTime.Now).TotalDays, 0);
+            var daysRemainingCalc = Math.Round((UserProfile.EndDate.Value - DateTime.Now).TotalDays, 0).ToString("n0");
             daysRemaining.Text = daysRemainingCalc.ToString() + " days until release";
             percentText.Text = Math.Round(totProgress, 0) + "%";
             //percentText.Typeface = Typeface.CreateFromAsset(Assets, "Turis-Light.otf");
@@ -142,10 +142,12 @@ namespace counttime
                     progressBar.Id = progressBar.Id + 1;
                     if (eType == "Duration")
                     {
-                        txtName.Text = sList[position].Name + " \n" + sDate.ToShortDateString() + " to " + endDate.ToShortDateString();
                         var totDays = (endDate - sDate).TotalDays;
                         var comDays = (DateTime.Now - sDate).TotalDays;
                         var totProgress = (comDays / totDays) * 100;
+                        var remDays = (endDate - DateTime.Now).TotalDays;
+                        txtName.Text = sList[position].Name + " \n" + remDays.ToString("n0") + " days remaining";
+                        
                         
                         progressBar.Progress = (int)totProgress;
                         progressBar.ScaleY = 2;

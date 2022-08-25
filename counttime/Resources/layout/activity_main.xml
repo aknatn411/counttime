@@ -17,12 +17,11 @@
         app:backgroundTint="?android:attr/colorBackground"
         android:textColor="#666"
         app:rippleColor="#999"
-        android:text="Profile"
+        android:text="Settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:id="@+id/EditProfileButton" />
-
 
     <ProgressBar
         android:id="@+id/progressBar1"

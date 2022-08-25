@@ -97,7 +97,10 @@ namespace counttime.Data
             }
             else
             {
-                return database.Insert(ctEvent);
+                database.Insert(ctEvent);
+                string sql = @"select last_insert_rowid()";
+                int lastId = database.ExecuteScalar<int>(sql);
+                return lastId;
             }
         }
         public int DeleteEvent(Event ctEvent)

@@ -81,7 +81,10 @@ namespace counttime
 
             DatePickerDialog createdtDateDialog = new DatePickerDialog(this, OnStartDateSet, DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
 
-            
+            var epoch = new DateTime(1970, 1, 1);
+
+            createdtDateDialog.DatePicker.MaxDate = (long)(UserProfile.EndDate.Value - epoch).TotalMilliseconds;
+            createdtDateDialog.DatePicker.MinDate = (long)(UserProfile.StartDate.Value.AddDays(1) - epoch).TotalMilliseconds;
 
             EditText txtCreatedtDate = FindViewById<EditText>(Resource.Id.LocationArrivalDate);
             if(txtCreatedtDate.Text == String.Empty)
@@ -131,10 +134,25 @@ namespace counttime
 
         private void OnSaveLocationTouch()
         {
+            var arrivalDate = DateTime.Parse(FindViewById<EditText>(Resource.Id.LocationArrivalDate).Text);
+            if (arrivalDate < UserProfile.StartDate || arrivalDate > UserProfile.EndDate)
+            {
+                Android.App.AlertDialog.Builder alert = new Android.App.AlertDialog.Builder(this);
+                alert.SetTitle("Error");
+                alert.SetMessage("Arrival date must be between start and end date.");
+                alert.SetPositiveButton("OK", (senderAlert, args) =>
+                {
+                    return;
+                });
+
+                Dialog dialog = alert.Create();
+                dialog.Show();
+                return;
+            }
             Location newLocation = new Location()
             {
                 Name = FindViewById<EditText>(Resource.Id.LocationName).Text,
-                ArrivalDate = DateTime.Parse(FindViewById<EditText>(Resource.Id.LocationArrivalDate).Text),
+                ArrivalDate = arrivalDate,
                 Notes = FindViewById<EditText>(Resource.Id.LocationNotes).Text,
                 Cell = FindViewById<EditText>(Resource.Id.LocationCell).Text,
                 UserId = UserProfile.Id

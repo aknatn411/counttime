@@ -11,5 +11,7 @@
 		<item>Duration</item>
 		<item>Milestone</item>
 		<item>Anniversary</item>
+		<item>Lockdown</item>
+		<item>SHU</item>
 	</string-array>
 </resources>
