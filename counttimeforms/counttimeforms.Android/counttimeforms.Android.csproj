@@ -104,12 +104,6 @@
     <AndroidResource Include="Resources\drawable\ic_info.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\counttimeforms\counttimeforms.csproj">
-      <Project>{449928A6-2D3F-48BF-AC77-A7B7F5F2E93D}</Project>
-      <Name>counttimeforms</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\ic_browse.xml" />
   </ItemGroup>
   <ItemGroup>
