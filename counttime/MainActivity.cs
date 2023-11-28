@@ -54,13 +54,6 @@ namespace counttime
                 StartActivity(intent1);
             };
 
-            if(UserProfile.EndDate.Value.Date == UserProfile.StartDate.Value.Date)
-            {
-                Intent intent1 = new Intent(this, typeof(ProfileEditActivity));
-                StartActivity(intent1);
-                Android.Widget.Toast.MakeText(this, "Please enter your start and end dates.", Android.Widget.ToastLength.Long).Show();
-            }
-
             ProgressBar progressBar1 = FindViewById<ProgressBar>(Resource.Id.progressBar1);
             progressBar1.Touch += (sender, e) =>
             {
