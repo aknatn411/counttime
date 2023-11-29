@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout 
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -21,14 +21,14 @@
         android:id="@+id/StatisticsTitle" />
     <TextView
         android:text="1000"
-        android:textSize="18pt"
+        android:textSize="24dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/StatisticsTitle"
         android:id="@+id/StatsDaysRemainingValue" />
     <TextView
-        android:text="Days Remaining"
+        android:text="Days Left"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,16 +41,6 @@
         android:layout_below="@id/StatsDaysRemainingText"
         android:paddingTop="15dp"
         android:id="@+id/StatsHamburgerImage" />
-
-    <TextView
-        android:text="1000"
-        android:textSize="18pt"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/StatsDaysRemainingText"
-        android:layout_toRightOf="@id/StatsHamburgerImage"
-        android:id="@+id/StatsWednesdaysRemainingValue" />
     <TextView
         android:text="Hamburgers Left to Eat"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -61,7 +51,7 @@
 
     <TextView
         android:text="1000"
-        android:textSize="18pt"
+        android:textSize="24dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,23 +71,25 @@
 
     <TextView
         android:text="1000"
-        android:textSize="18pt"
+        android:textSize="24dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/StatisticsTitle"
         android:layout_toRightOf="@id/StatsDaysServedValue"
         android:paddingLeft="30dp"
-        android:id="@+id/StatsPercentCompleteValue" />
+        android:id="@+id/StatsPercentCompleteValue"
+        android:textAlignment="textEnd" />
     <TextView
         android:text="Completed"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="22.0dp"
         android:layout_below="@id/StatsPercentCompleteValue"
         android:layout_toRightOf="@id/StatsDaysServedText"
         android:paddingLeft="30dp"
-        android:id="@+id/StatsPercentCompleteText" />
+        android:id="@+id/StatsPercentCompleteText"
+        android:layout_marginBottom="0.0dp" />
     <TextView
         android:text=""
         android:layout_below="@id/StatsWednesdaysRemainingText"
@@ -117,4 +109,16 @@
         android:background="?android:attr/windowBackground"
         android:layout_alignParentBottom="true"
         app:menu="@menu/navigation" />
+
+    <TextView
+        android:text="1000"
+        android:textSize="24dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/StatsHamburgerImage"
+        android:layout_toRightOf="@id/StatsHamburgerImage"
+        android:id="@+id/StatsWednesdaysRemainingValue"
+        android:layout_toLeftOf="@id/StatsWednesdaysRemainingValue"
+        android:layout_alignLeft="@id/StatsHamburgerImage" />
 </RelativeLayout>
